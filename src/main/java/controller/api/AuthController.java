@@ -5,6 +5,9 @@ import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,11 +20,11 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private JwtTokenProvider tokenProvider;
+   @Autowired
+   private JwtTokenProvider tokenProvider;
 
-    @Autowired
-    private UserRepository userRepository;
+   @Autowired
+   private UserRepository userRepository;
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody RegisterRequest request) {
@@ -30,10 +33,9 @@ public class AuthController {
         }
 
         SecurityProperties.User user = new SecurityProperties.User();
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
-        user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setName(request.getFirstName());
+        user.setName(request.getLastName());
+        user.setName(request.getEmail());
 
         userRepository.save(user);
 
@@ -52,5 +54,6 @@ public class AuthController {
 
         return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
     }
+
 }
 
