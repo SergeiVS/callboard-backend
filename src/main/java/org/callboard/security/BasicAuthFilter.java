@@ -47,7 +47,7 @@ public class BasicAuthFilter extends BasicAuthenticationFilter {
 
         if (authHeader != null && authHeader.startsWith("Basic ")) {
             try {
-                Authentication authentication = extractAuthentication(request);
+                Authentication authentication = getAuthenticationManager().authenticate(extractAuthentication(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } catch (Exception e) {
                 SecurityContextHolder.clearContext();
