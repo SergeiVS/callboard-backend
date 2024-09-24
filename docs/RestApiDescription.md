@@ -6,6 +6,7 @@
   
 [ 
     {
+        "postId": 1
         "subject": "Нужна помощь",
         "header": "Требуется помощь с покупкой продуктов",
         "user": {"name": "Иван Иванов", "email": "ivanov@example.com"},
@@ -13,6 +14,7 @@
         "photoLink": "link_to_photo"
     },
     {
+        "postId": 2
         "subject": "Предлагаю помощь",
         "header": "Помощь в доставке",
         "user": {"name": "Петр Петров", "email": "petrov@example.com"},
@@ -31,12 +33,13 @@
   - **Пример ответа**:
 [  
     {
-          "subject": "Нужна помощь",
-          "header": "Требуется помощь с уборкой",
-          "user": {"name": "Мария Смирнова", "email": "smirnova@example.com"},
-          "description": "Помогите убраться дома",
-          "photoLink": "link_to_photo"
-    }
+            "postId": 1
+            "subject": "Нужна помощь",
+            "header": "Требуется помощь с уборкой",
+            "user": {"name": "Мария Смирнова", "email": "smirnova@example.com"},
+            "description": "Помогите убраться дома",
+            "photoLink": "link_to_photo"
+      }
 ]
   - 
 - **HTTP Status**: `200 OK`
@@ -47,6 +50,7 @@
 - **Метод**: `POST`
 - **Endpoint**: `/api/auth/register`
   - **Пример запроса**:
+  
   {
       "firstName": "Иван",
       "lastName": "Иванов",
@@ -113,11 +117,12 @@
   - **Пример запроса**:
 
       {
-          "subject": "Нужна помощь",
-          "header": "Требуется помощь с покупкой лекарств",
-          "description": "Нужно купить лекарства для пожилого человека",
-          "photoLink": "link_to_photo"
-      }
+            "postId":1
+            "subject": "Нужна помощь",
+            "header": "Требуется помощь с покупкой лекарств",
+            "description": "Нужно купить лекарства для пожилого человека",
+            "photoLink": "link_to_photo"
+        }
 
   - **Пример ответа**:
 
