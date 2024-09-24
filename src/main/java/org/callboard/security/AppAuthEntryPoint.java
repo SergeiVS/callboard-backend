@@ -1,7 +1,6 @@
 package org.callboard.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
@@ -17,7 +16,7 @@ public class AppAuthEntryPoint implements AuthenticationEntryPoint {
     private final static ObjectMapper mapper = new ObjectMapper();
 
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
         HttpStatus status = HttpStatus.UNAUTHORIZED;
         String message = "Unauthorized" + authException.getMessage();
 

@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.callboard.exceptions.InvalidJwtException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -17,16 +18,14 @@ import java.util.Date;
 @RequiredArgsConstructor
 @Slf4j
 public class JwtProvider {
-
+//TODO remove open jwtSecret before project deploying
     @Value("HUHerfjewhewu47585903JOIiIJOU4QOoiu8h73")
     private String jwtSecret;
 
     @Value("300000")
     private long expireAt;
 
-    public Key getKey() {
-        return new SecretKeySpec(jwtSecret.getBytes(), "HmacSHA256");
-    }
+
 
     public String getJwtToken(String login) {
         Date now = new Date();
@@ -56,10 +55,12 @@ public class JwtProvider {
                     .parseClaimsJws(token)
                     .getBody();
         } catch (JwtException e) {
-            throw new JwtException("Invalid JWT token");
+            throw new InvalidJwtException("Invalid JWT token");
         }
     }
 
-
+    private Key getKey() {
+        return new SecretKeySpec(jwtSecret.getBytes(), "HmacSHA256");
+    }
 
 }
