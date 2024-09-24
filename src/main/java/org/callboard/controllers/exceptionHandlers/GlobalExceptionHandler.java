@@ -1,6 +1,9 @@
 package org.callboard.controllers.exceptionHandlers;
 
+import jakarta.validation.ConstraintViolationException;
 import org.callboard.dto.ErrorResponseDto;
+import org.callboard.exceptions.AlreadyExistException;
+import org.callboard.exceptions.IllegalRequestParamException;
 import org.callboard.exceptions.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,16 +14,46 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
-public ResponseEntity<ErrorResponseDto> handleNotFoundException(NotFoundException e) {
+    public ResponseEntity<ErrorResponseDto> handleNotFoundException(NotFoundException e) {
         return buildResponse(e.getMessage(), "NotFoundException", HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(AlreadyExistException.class)
+    public ResponseEntity<ErrorResponseDto> handleAlreadyExistException(AlreadyExistException e) {
+        return buildResponse(e.getMessage(), "AlreadyExistException", HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(IllegalRequestParamException.class)
+    public ResponseEntity<ErrorResponseDto> handleIllegalRequestParamException(IllegalRequestParamException e) {
+        return buildResponse(e.getMessage(), "IllegalRequestParamException", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ErrorResponseDto> handleConstraintViolationException(ConstraintViolationException e) {
+
+        StringBuilder message = new StringBuilder();
+        e.getConstraintViolations().forEach(constraintViolation -> {
+            message.append(constraintViolation.getMessage()).append("\n");
+        });
+        return buildResponse(message.toString(), "ConstraintViolationException", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponseDto> handleIllegalArgumentException(IllegalArgumentException e) {
+        return buildResponse(e.getMessage(), "IllegalArgumentException", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ErrorResponseDto> handleRuntimeException(RuntimeException e) {
+        return buildResponse(e.getMessage(), "RuntimeException", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     private ResponseEntity<ErrorResponseDto> buildResponse(String message, String errorType, HttpStatus status) {
-       ErrorResponseDto response = ErrorResponseDto.builder()
+        ErrorResponseDto response = ErrorResponseDto.builder()
                 .errorMessage(message)
                 .errorType(errorType)
                 .build();
         return new ResponseEntity<>(response, status);
     }
-
 }
+
