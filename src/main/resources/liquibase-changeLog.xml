@@ -6,5 +6,86 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 		https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
 
-<!--    TODO changesets then necessary entities and repositories were added -->
+    <changeSet id="1727198624280-1" author="SergeiVS">
+        <createTable tableName="roles">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_roles"/>
+            </column>
+            <column name="role_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1727198624280-2" author="SergeiVS">
+        <addUniqueConstraint columnNames="role_name" constraintName="uc_roles_rolename" tableName="roles"/>
+    </changeSet>
+
+    <changeSet id="1727198718683-1" author="SergeiVS">
+        <createTable tableName="users">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_users"/>
+            </column>
+            <column name="first_name" type="VARCHAR(255)"/>
+            <column name="last_name" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="password" type="VARCHAR(255)"/>
+            <column name="phone_number" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1727198718683-2" author="SergeiVS">
+        <createTable tableName="users_roles">
+            <column name="user_id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_users_roles"/>
+            </column>
+            <column name="roles_id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_users_roles"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1727198718683-3" author="SergeiVS">
+        <addForeignKeyConstraint baseColumnNames="roles_id" baseTableName="users_roles"
+                                 constraintName="fk_userol_on_role" referencedColumnNames="id"
+                                 referencedTableName="roles"/>
+    </changeSet>
+
+    <changeSet id="1727198718683-4" author="SergeiVS">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="users_roles"
+                                 constraintName="fk_userol_on_user" referencedColumnNames="id"
+                                 referencedTableName="users"/>
+    </changeSet>
+
+    <changeSet id="fill-rolles-table" author="SergeiVS">
+        <insert tableName="roles">
+            <column name="role_name" value="ADMIN"/>
+        </insert>
+        <insert tableName="roles">
+            <column name="role_name" value="USER"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="fill-user-table-with-default-value" author="SergeiVS">
+        <insert tableName="users">
+            <column name="first_name" value="John"/>
+            <column name="last_name" value="Doe"/>
+            <column name="password" value="
+$2a$08$HYTVili1tQKxcBKZXGA9ju1.4IQPmbEQM/gyIC6gUKkwqE5TDeHmS"/>
+            <column name="email" value="admin@callboard.com"/>
+        </insert>
+    </changeSet>
+    <changeSet id="fill-users_roles-table-with-default-values" author="SergeiVS">
+        <insert tableName="users_roles">
+            <column name="user_id" value="1"/>
+            <column name="roles_id" value="1"/>
+        </insert>
+    </changeSet>
+    <changeSet id="fill-users_roles-table-with-default-values-2" author="SergeiVS">
+        <insert tableName="users_roles">
+            <column name="user_id" value="1"/>
+            <column name="roles_id" value="2"/>
+        </insert>
+    </changeSet>
+
 </databaseChangeLog>
