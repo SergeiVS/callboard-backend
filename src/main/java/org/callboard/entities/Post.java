@@ -39,9 +39,9 @@ public class Post {
     private Subject subject;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
+    @JoinColumn(name = "id", referencedColumnName = "id", nullable = false)
     @NotNull
-    private User user;
+    private User id;
 
     @Override
     public boolean equals(Object o) {
