@@ -29,9 +29,7 @@ public class Post {
     @Column(name = "photo_link")
     private String photoLink;
 
-    @NotBlank
-    @Column(name = "user_id", nullable = false)
-    private String userId;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id", referencedColumnName = "subject_id", nullable = false)
@@ -41,7 +39,7 @@ public class Post {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id", referencedColumnName = "id", nullable = false)
     @NotNull
-    private User id;
+    private User user;
 
     @Override
     public boolean equals(Object o) {
