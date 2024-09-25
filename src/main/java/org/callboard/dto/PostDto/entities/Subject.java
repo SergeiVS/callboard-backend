@@ -1,4 +1,4 @@
-package org.callboard.entities;
+package org.callboard.dto.PostDto.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
