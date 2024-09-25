@@ -38,6 +38,11 @@ public class Post {
     @NotNull
     private Subject subject;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
+    @NotNull
+    private User user;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
