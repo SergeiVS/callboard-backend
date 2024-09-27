@@ -26,6 +26,7 @@ public class BasicAuthFilter extends BasicAuthenticationFilter {
     }
 
     private Authentication extractAuthentication(HttpServletRequest request) {
+
         String authHeader = request.getHeader("Authorization");
         byte[] credDecoded = Base64.getDecoder().decode(authHeader);
         String credentials = new String(credDecoded);
@@ -54,5 +55,6 @@ public class BasicAuthFilter extends BasicAuthenticationFilter {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
             }
         }
+        chain.doFilter(request, response);
     }
 }

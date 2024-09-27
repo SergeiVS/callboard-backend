@@ -14,7 +14,7 @@ public class AppUserDetailsService implements UserDetailsService {
 //TODO Add the method body after the necessary Entities were created User, UserService
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return null;
     }
 }
