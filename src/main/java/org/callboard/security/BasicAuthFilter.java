@@ -25,13 +25,33 @@ public class BasicAuthFilter extends BasicAuthenticationFilter {
         super(authenticationManager);
     }
 
-    private Authentication extractAuthentication(HttpServletRequest request) {
+
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 
         String authHeader = request.getHeader("Authorization");
-        byte[] credDecoded = Base64.getDecoder().decode(authHeader);
+
+        if (authHeader != null && authHeader.startsWith("Basic ")) {
+            try {
+                Authentication authentication = getAuthenticationManager().authenticate(extractAuthentication(authHeader));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            } catch (BadCredentialsException e) {
+                SecurityContextHolder.clearContext();
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized Request");
+            }
+        }
+        chain.doFilter(request, response);
+    }
+
+    private Authentication extractAuthentication(String header) {
+
+        String base64Credentials= header.substring("Basic ".length());
+        byte[] credDecoded = Base64.getDecoder().decode(base64Credentials);
         String credentials = new String(credDecoded);
 
         final String[] credValues = credentials.split(":", 2);
+
         if (credValues.length != 2) {
             throw new BadCredentialsException("Invalid credentials");
         }
@@ -39,22 +59,9 @@ public class BasicAuthFilter extends BasicAuthenticationFilter {
         String email = credValues[0];
         String password = credValues[1];
 
+        log.info(STR."Email: \{email}");
+        log.info(STR."Password: \{password}");
+
         return new UsernamePasswordAuthenticationToken(email, password, null);
-    }
-
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        String authHeader = request.getHeader("Authorization");
-
-        if (authHeader != null && authHeader.startsWith("Basic ")) {
-            try {
-                Authentication authentication = getAuthenticationManager().authenticate(extractAuthentication(request));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            } catch (Exception e) {
-                SecurityContextHolder.clearContext();
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
-            }
-        }
-        chain.doFilter(request, response);
     }
 }

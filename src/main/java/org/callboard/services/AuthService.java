@@ -24,7 +24,12 @@ public class AuthService {
 
         String username = request.getEmail();
         String password = request.getPassword();
+
+        log.info("Authenticating user {}", username);
+
         try {
+
+
             Authentication authentication = authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(username, password));
 
@@ -36,7 +41,8 @@ public class AuthService {
             return ResponseEntity.ok(jwtToken);
 
         } catch (Exception e) {
-            throw new AuthException("Authentication failed", e);
+            log.error(e.getMessage());
+            throw e;
         }
 
     }
