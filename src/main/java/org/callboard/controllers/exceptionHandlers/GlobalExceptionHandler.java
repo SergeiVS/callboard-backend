@@ -1,7 +1,8 @@
 package org.callboard.controllers.exceptionHandlers;
 
+import jakarta.security.auth.message.AuthException;
 import jakarta.validation.ConstraintViolationException;
-import org.callboard.dto.ErrorResponseDto;
+import org.callboard.dto.errorDto.ErrorResponseDto;
 import org.callboard.exceptions.AlreadyExistException;
 import org.callboard.exceptions.IllegalRequestParamException;
 import org.callboard.exceptions.NotFoundException;
@@ -43,10 +44,16 @@ public class GlobalExceptionHandler {
         return buildResponse(e.getMessage(), "IllegalArgumentException", HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(AuthException.class)
+    public ResponseEntity<ErrorResponseDto> handleAuthException(AuthException e) {
+        return buildResponse(e.getMessage(), "AuthException", HttpStatus.UNAUTHORIZED);
+    }
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponseDto> handleRuntimeException(RuntimeException e) {
         return buildResponse(e.getMessage(), "RuntimeException", HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 
     private ResponseEntity<ErrorResponseDto> buildResponse(String message, String errorType, HttpStatus status) {
         ErrorResponseDto response = ErrorResponseDto.builder()
@@ -55,5 +62,6 @@ public class GlobalExceptionHandler {
                 .build();
         return new ResponseEntity<>(response, status);
     }
+
 }
 

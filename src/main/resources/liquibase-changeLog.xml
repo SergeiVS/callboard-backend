@@ -70,8 +70,7 @@
         <insert tableName="users">
             <column name="first_name" value="John"/>
             <column name="last_name" value="Doe"/>
-            <column name="password" value="
-$2a$08$HYTVili1tQKxcBKZXGA9ju1.4IQPmbEQM/gyIC6gUKkwqE5TDeHmS"/>
+            <column name="password" value="Test@User1"/>
             <column name="email" value="admin@callboard.com"/>
         </insert>
     </changeSet>

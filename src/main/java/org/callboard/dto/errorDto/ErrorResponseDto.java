@@ -1,4 +1,4 @@
-package org.callboard.dto;
+package org.callboard.dto.errorDto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
