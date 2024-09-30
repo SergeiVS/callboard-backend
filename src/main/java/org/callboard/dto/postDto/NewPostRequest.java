@@ -1,10 +1,10 @@
-package org.callboard.dto.PostDto;
+package org.callboard.dto.postDto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class NewPostRequestDTO {
+public class NewPostRequest {
     @NotBlank
     private String subject;
 

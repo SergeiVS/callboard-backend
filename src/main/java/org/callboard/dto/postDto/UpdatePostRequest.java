@@ -1,4 +1,4 @@
-package org.callboard.dto.PostDto;
+package org.callboard.dto.postDto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @Data
-public class UpdatePostRequestDTO {
+public class UpdatePostRequest {
     @NotNull
     private Long postId;
 

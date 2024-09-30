@@ -1,13 +1,14 @@
-package org.callboard.dto.PostDto;
+package org.callboard.dto.postDto;
 
 import lombok.Data;
+import org.callboard.dto.userDto.UserDataResponse;
 
 @Data
-public class PostResponseDTO {
+public class PostResponse {
     private Long postId;
     private String subject;
     private String header;
-    private UserForPostDTO user;
+    private UserDataResponse user;
     private String description;
     private String photoLink;
 }
