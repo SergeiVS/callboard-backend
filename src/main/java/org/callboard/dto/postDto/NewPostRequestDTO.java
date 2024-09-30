@@ -1,10 +1,13 @@
 package org.callboard.dto.postDto;
 
+import io.micrometer.common.lang.NonNull;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
 public class NewPostRequestDTO {
+    @NonNull
+    private Integer userId;
     @NotBlank
     private String subject;
 

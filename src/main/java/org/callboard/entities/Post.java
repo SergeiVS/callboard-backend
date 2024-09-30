@@ -29,8 +29,6 @@ public class Post {
     @Column(name = "photo_link")
     private String photoLink;
 
-
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id", referencedColumnName = "subject_id", nullable = false)
     @NotNull

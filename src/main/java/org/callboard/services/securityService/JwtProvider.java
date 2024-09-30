@@ -22,7 +22,7 @@ public class JwtProvider {
     @Value("HUHerfjewhewu47585903JOIiIJOU4QOoiu8h73")
     private String jwtSecret;
 
-    @Value("300000")
+    @Value("3000000")
     private long expireAt;
 
 
