@@ -14,7 +14,6 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.ErrorResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +41,8 @@ public class CreatePostService implements PostServiceInterface<NewPostRequest> {
 
         return new ResponseEntity<>(responseList, HttpStatus.CREATED);
     }
+
+
 
     private @NotNull List<PostResponse> getResponseList(Post savedPost) {
         PostResponse postResponse = postMappers.toPostResponse(savedPost);
