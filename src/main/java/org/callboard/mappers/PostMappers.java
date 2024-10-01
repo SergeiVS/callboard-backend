@@ -10,8 +10,8 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring", uses = {UserMappers.class}, imports = {SubjectMappers.class})
 public interface PostMappers {
 
-//    @Mapping(target = "user", ignore = true)
-//    @Mapping(target = "postId", ignore = true)
+    @Mapping(target = "user", ignore = true)
+    @Mapping(target = "postId", ignore = true)
     Post toPost(NewPostRequest request);
     Post toPost(UpdatePostRequest request);
     PostResponse toPostResponse(Post post);
