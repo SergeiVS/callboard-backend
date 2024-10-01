@@ -8,7 +8,6 @@ import org.hibernate.proxy.HibernateProxy;
 import java.util.Objects;
 
 @Entity
-@Table(name = "subjects")
 @Data
 public class Subject {
 
