@@ -30,21 +30,4 @@ public class UserRepositoryService {
         return userRepository.findById(id);
     };
 
-    public UserDetails loadUserByEmailForAuth(String email) throws UsernameNotFoundException {
-
-        var user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException(email));
-
-
-        return new org.springframework.security.core.userdetails.User(
-                user.getEmail(),
-                user.getPassword(),
-                mapRolesToAuthorities(user.getRoles()));
-    }
-
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Set<Role> roles) {
-        return roles.stream()
-                .map(role -> new SimpleGrantedAuthority(role.getRoleName()))
-                .toList();
-    }
 }
