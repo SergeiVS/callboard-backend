@@ -35,7 +35,6 @@ public class UpdatePostService implements PostServiceInterface<UpdatePostRequest
 
     private @NotNull List<PostResponse> getPostResponses(Post post) {
         PostResponse response = postMappers.toPostResponse(post);
-        response.setSubject(post.getSubject().getName());
         List<PostResponse> rerponseList = new ArrayList<>();
         rerponseList.add(response);
         return rerponseList;

@@ -45,9 +45,8 @@ public class CreatePostService implements PostServiceInterface<NewPostRequest> {
 
 
     private @NotNull List<PostResponse> getResponseList(Post savedPost) {
-        PostResponse postResponse = postMappers.toPostResponse(savedPost);
-        postResponse.setSubject(savedPost.getSubject().getName());
 
+        PostResponse postResponse = postMappers.toPostResponse(savedPost);
         List<PostResponse> responseList = new ArrayList<>();
         responseList.add(postResponse);
         return responseList;

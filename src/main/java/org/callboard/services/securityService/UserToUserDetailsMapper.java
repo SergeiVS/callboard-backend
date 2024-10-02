@@ -7,8 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+
 @RequiredArgsConstructor
 public class UserToUserDetailsMapper implements UserDetails {
 
@@ -16,7 +15,10 @@ public class UserToUserDetailsMapper implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority(STR."Role_\{user.getRoles()}"));
+        return user.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority(role.getRoleName()))
+                .toList();
+//        return Collections.singletonList(new SimpleGrantedAuthority(STR."Role_\{user.getRoles()}"));
     }
 
     @Override

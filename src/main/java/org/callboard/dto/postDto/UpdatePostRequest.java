@@ -10,7 +10,6 @@ import org.jetbrains.annotations.Nullable;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
-@Component
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

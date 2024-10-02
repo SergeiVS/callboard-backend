@@ -18,9 +18,8 @@ private final UserRepositoryService userRepositoryService;
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
        log.info(STR."Loading user by email: \{email}");
-
-        return userRepositoryService.findUserByEmail(email)
-                .map(UserToUserDetailsMapper::new)
-                .orElseThrow(()->new NotFoundException(STR."User with email: \{email} not found"));
+UserDetails details = userRepositoryService.loadUserByEmailForAuth(email);
+log.info(STR."Details: \{details}");
+        return details;
     }
 }
