@@ -1,8 +1,10 @@
-package org.callboard.dto.userDto;
+package org.callboard.dto.subjectDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -10,10 +12,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserDataResponse {
-    private Integer id;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String phoneNumber;
+public class SubjectResponse {
+    private Long subjectId;
+    private String name;
 }

@@ -3,6 +3,7 @@ package org.callboard.services;
 import jakarta.security.auth.message.AuthException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.callboard.dto.StandardResponse;
 import org.callboard.dto.authDto.AuthenticationRequest;
 import org.callboard.services.securityService.JwtProvider;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class AuthService {
     private final JwtProvider jwtProvider;
     private final AuthenticationManager authenticationManager;
 
-    public ResponseEntity<String> authenticateUser(AuthenticationRequest request) throws AuthException {
+    public ResponseEntity<StandardResponse> authenticateUser(AuthenticationRequest request) throws AuthException {
 
         String username = request.getEmail();
         String password = request.getPassword();
@@ -38,7 +39,7 @@ public class AuthService {
 
             log.info("Jwt token: {}", jwtToken);
 
-            return ResponseEntity.ok(jwtToken);
+            return ResponseEntity.ok(new StandardResponse(jwtToken));
 
         } catch (Exception e) {
             log.error(e.getMessage());

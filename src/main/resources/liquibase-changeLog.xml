@@ -57,6 +57,18 @@
                                  referencedTableName="users"/>
     </changeSet>
 
+    <changeSet id="create-subjects-table" author="SergeiVS">
+        <createTable tableName="subjects">
+            <column autoIncrement="true" name="subject_id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_subjects"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+
     <changeSet id="fill-rolles-table" author="SergeiVS">
         <insert tableName="roles">
             <column name="role_name" value="ADMIN"/>
@@ -84,6 +96,15 @@
         <insert tableName="users_roles">
             <column name="user_id" value="1"/>
             <column name="roles_id" value="2"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="fill-subjects-table" author="SergeiVS">
+        <insert tableName="subjects">
+            <column name="name" value="NEED HELP"/>
+        </insert>
+        <insert tableName="subjects">
+            <column name="name" value="OFFER HELP"/>
         </insert>
     </changeSet>
 

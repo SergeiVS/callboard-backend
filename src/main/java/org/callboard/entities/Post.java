@@ -3,14 +3,18 @@ package org.callboard.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.util.Objects;
 
 @Entity
 @Table(name = "posts")
-@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Post {
 
     @Id
@@ -19,25 +23,23 @@ public class Post {
     private Long postId;
 
     @NotBlank
-    @Column(name = "header", nullable = false)
+    @Column(nullable = false)
     private String header;
 
     @NotBlank
-    @Column(name = "description", nullable = false)
+    @Column(nullable = false)
     private String description;
 
-    @Column(name = "photo_link")
+    @Column
     private String photoLink;
 
-
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "subject_id", referencedColumnName = "subject_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "subject_id")
     @NotNull
     private Subject subject;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(nullable = false, name = "id")
     @NotNull
     private User user;
 
