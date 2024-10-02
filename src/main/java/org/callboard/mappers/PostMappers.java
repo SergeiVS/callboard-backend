@@ -11,7 +11,7 @@ import org.mapstruct.Mapping;
 public interface PostMappers {
 
     @Mapping(target = "user", ignore = true)
-    @Mapping(target = "postId", ignore = true)
+    @Mapping(target = "postId",ignore = true)
     @Mapping(target = "subject", ignore = true)
     Post toPost(NewPostRequest request);
     @Mapping(target = "subject", ignore = true)
