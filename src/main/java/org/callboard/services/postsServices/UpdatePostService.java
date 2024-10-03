@@ -16,42 +16,41 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Service
 @RequiredArgsConstructor
-public class UpdatePostService implements PostServiceInterface<UpdatePostRequest>{
+public class UpdatePostService implements PostServiceInterface<UpdatePostRequest> {
 
     private final PostRepositoryService postRepoService;
-    private final PostMappers postMappers;
-    private final SubjectRepositoryService subjectRepoService;
+    private final PostResponseListMapper postResponseListMapper;
 
     @Transactional
     @Override
     public ResponseEntity<List<PostResponse>> execute(UpdatePostRequest request) {
-        Post postForSave = savePost(request);
-        Post post = postRepoService.save(postForSave);
-        List<PostResponse> rerponseList = getPostResponses(post);
-        return new ResponseEntity<>(rerponseList, HttpStatus.OK);
-    }
 
-    private @NotNull List<PostResponse> getPostResponses(Post post) {
-        PostResponse response = postMappers.toPostResponse(post);
-        List<PostResponse> rerponseList = new ArrayList<>();
-        rerponseList.add(response);
-        return rerponseList;
+        Post post = savePost(request);
+
+        return new ResponseEntity<>(postResponseListMapper.mapPostToPostResponseList(post), HttpStatus.OK);
     }
 
     private @NotNull Post savePost(UpdatePostRequest request) {
-        Post postForSave = new Post();
-
-        if(postRepoService.existsById(request.getPostId())) {
-           postForSave = postMappers.toPost(request);
-        }
-
-        Subject subjectForSave = subjectRepoService.findByName(request.getSubject())
-                .orElseThrow(()->new NotFoundException(STR."Subject: \{request.getSubject()} not found"));
-
-        postForSave.setSubject(subjectForSave);
+        Post postForSave = postRepoService.findById(request.getPostId())
+                .orElseThrow(() -> new NotFoundException(STR."Post with id: \{request.getPostId()} not found"));
+        setNewValuesForPost(request, postForSave);
         return postForSave;
+    }
+
+    private static void setNewValuesForPost(UpdatePostRequest request, Post postForSave) {
+
+        if (request.getHeader() != null) {
+            postForSave.setHeader(request.getHeader());
+        }
+        if (request.getDescription() != null) {
+            postForSave.setDescription(request.getDescription());
+        }
+        if (request.getPhotoLink() != null) {
+            postForSave.setPhotoLink(request.getPhotoLink());
+        }
     }
 
 

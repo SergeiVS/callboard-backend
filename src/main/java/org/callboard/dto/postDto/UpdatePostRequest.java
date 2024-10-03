@@ -19,9 +19,6 @@ public class UpdatePostRequest {
     private Long postId;
 
     @Nullable
-    private String subject;
-
-    @Nullable
     private String header;
 
     @Nullable
@@ -29,7 +26,4 @@ public class UpdatePostRequest {
 
     @Nullable
     private String photoLink;
-
-    @Nullable
-    private String phoneNumber;
 }
