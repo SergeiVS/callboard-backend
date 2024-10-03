@@ -9,6 +9,5 @@ import java.util.Optional;
 @Repository
 public interface SubjectRepository extends JpaRepository<Subject, Long> {
     boolean existsByName(String name);
-
     Optional<Subject> findByName(String subjectName);
 }

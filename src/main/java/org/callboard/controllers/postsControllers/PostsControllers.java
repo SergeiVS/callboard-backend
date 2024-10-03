@@ -7,11 +7,11 @@ import org.callboard.dto.postDto.NewPostRequest;
 import org.callboard.dto.postDto.PostResponse;
 import org.callboard.dto.postDto.UpdatePostRequest;
 import org.callboard.services.postsServices.CreatePostService;
+import org.callboard.services.postsServices.FindAllPostsService;
+import org.callboard.services.postsServices.FindPostsBySubjectService;
 import org.callboard.services.postsServices.UpdatePostService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,6 +22,8 @@ public class PostsControllers {
 
     private final CreatePostService createPostService;
     private final UpdatePostService updatePostService;
+    private final FindAllPostsService findAllPostsService;
+    private final FindPostsBySubjectService findPostsBySubjectService;
 
 
     @PostMapping
@@ -33,4 +35,15 @@ public class PostsControllers {
     public ResponseEntity<List<PostResponse>> updatePost(@Valid @RequestBody UpdatePostRequest request) {
         return updatePostService.execute(request);
     }
+
+    @GetMapping
+    public ResponseEntity<List<PostResponse>> getAllPosts() {
+        return findAllPostsService.findAllPosts();
+    }
+
+    @GetMapping("/{subject}")
+    public ResponseEntity<List<PostResponse>> getPostsBySubject(@PathVariable String subject) {
+        return findPostsBySubjectService.execute(subject);
+    }
+
 }
