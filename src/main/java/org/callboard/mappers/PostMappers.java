@@ -14,6 +14,5 @@ public interface PostMappers {
     @Mapping(target = "postId",ignore = true)
     @Mapping(target = "subject", ignore = true)
     Post toPost(NewPostRequest request);
-    Post toPost(UpdatePostRequest request);
     PostResponse toPostResponse(Post post);
 }

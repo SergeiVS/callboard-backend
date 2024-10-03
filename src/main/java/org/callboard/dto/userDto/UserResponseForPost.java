@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserDataResponse {
+public class UserResponseForPost {
     private Integer id;
     private String firstName;
     private String lastName;
