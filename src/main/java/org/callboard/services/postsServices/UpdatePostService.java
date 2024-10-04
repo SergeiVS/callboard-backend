@@ -2,6 +2,7 @@ package org.callboard.services.postsServices;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.callboard.dto.postDto.PostListResponse;
 import org.callboard.dto.postDto.PostResponse;
 import org.callboard.dto.postDto.UpdatePostRequest;
 import org.callboard.entities.Post;
@@ -19,19 +20,20 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UpdatePostService implements PostServiceInterface<UpdatePostRequest> {
+public class UpdatePostService implements PostServiceInterface<PostResponse, UpdatePostRequest> {
 
     private final PostRepositoryService postRepoService;
-    private final PostResponseListMapper postResponseListMapper;
+    PostMappers postMappers;
 
     @Transactional
     @Override
-    public ResponseEntity<List<PostResponse>> execute(UpdatePostRequest request) {
+    public ResponseEntity<PostResponse> execute(UpdatePostRequest request) {
 
         Post post = savePost(request);
 
-        return new ResponseEntity<>(postResponseListMapper.mapPostToPostResponseList(post), HttpStatus.OK);
+        return new ResponseEntity<>(postMappers.toPostResponse(post), HttpStatus.OK);
     }
+
 
     private @NotNull Post savePost(UpdatePostRequest request) {
         Post postForSave = postRepoService.findById(request.getPostId())

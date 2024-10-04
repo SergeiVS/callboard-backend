@@ -21,25 +21,22 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class CreatePostService implements PostServiceInterface<NewPostRequest> {
+public class CreatePostService implements PostServiceInterface<PostResponse,NewPostRequest> {
 
     private final PostRepositoryService postRepoService;
-    PostResponseListMapper postResponseListMapper;
     private final PostMappers postMappers;
     private final UserRepositoryService userRepoService;
     private final SubjectRepositoryService subjectRepoService;
 
     @Transactional
     @Override
-    public ResponseEntity<List<PostResponse>> execute(NewPostRequest request) {
+    public ResponseEntity<PostResponse> execute(NewPostRequest request) {
 
         Post postForSave = getPostForSave(request);
 
         Post savedPost = postRepoService.save(postForSave);
 
-        List<PostResponse> postResponses = postResponseListMapper.mapPostToPostResponseList(savedPost);
-
-        return new ResponseEntity<>(postResponses, HttpStatus.CREATED);
+        return new ResponseEntity<>(postMappers.toPostResponse(savedPost), HttpStatus.CREATED);
     }
 
 

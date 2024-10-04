@@ -1,16 +1,15 @@
 package org.callboard.dto.userDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.callboard.dto.Response;
 import org.springframework.stereotype.Component;
 
 @Component
 @Data
+@EqualsAndHashCode(callSuper=false)
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserResponseForPost {
+public class UserResponseForPost extends Response {
     private Integer id;
     private String firstName;
     private String lastName;

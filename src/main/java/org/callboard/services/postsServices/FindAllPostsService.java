@@ -1,6 +1,7 @@
 package org.callboard.services.postsServices;
 
 import lombok.RequiredArgsConstructor;
+import org.callboard.dto.postDto.PostListResponse;
 import org.callboard.dto.postDto.PostResponse;
 import org.callboard.entities.Post;
 import org.springframework.http.HttpStatus;
@@ -16,8 +17,14 @@ public class FindAllPostsService {
     private final PostRepositoryService postRepoService;
     private final PostResponseListMapper postResponseListMapper;
 
-    public ResponseEntity<List<PostResponse>> findAllPosts() {
+    public ResponseEntity<PostListResponse> findAllPosts() {
+
         List<Post> posts = postRepoService.findAll();
-        return new ResponseEntity<>(postResponseListMapper.mapPostsListToPostResponseList(posts), HttpStatus.FOUND);
+
+        PostListResponse response = PostListResponse.builder()
+                .responses(postResponseListMapper.mapPostsListToPostResponseList(posts))
+                .build();
+
+        return new ResponseEntity<>(response, HttpStatus.FOUND);
     }
 }
