@@ -17,6 +17,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -41,11 +43,14 @@ public class CreateUserService implements UserServiceInterface<UserResponse, New
 
     private User getUserForSaveFromRequest(NewUserRequest request) {
         User userForSave = userMappers.newUserResponseToUser(request);
+
         if (request.getPhoneNumber() != null) {
             userForSave.setPhoneNumber(request.getPhoneNumber());
         } else {
             userForSave.setPhoneNumber("N/A");
         }
+
+        userForSave.setRoles(new HashSet<>());
         userForSave.getRoles().add(rolesRepoService.getRoleByName("USER"));
         log.info(userForSave.getRoles().toString());
         return userForSave;
