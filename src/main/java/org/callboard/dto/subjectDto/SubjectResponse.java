@@ -13,6 +13,5 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @Builder
 public class SubjectResponse {
-    private Long subjectId;
     private String name;
 }
