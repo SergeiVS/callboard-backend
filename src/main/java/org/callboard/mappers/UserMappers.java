@@ -10,12 +10,12 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface UserMappers {
 
-    @Mapping(target = "roles", ignore = true)
     @Mapping(target = "message", ignore = true)
     UserResponse userToUserResponse(User user);
 
-    UserResponseForPost userToUserDataResponse(User user);
+    UserResponseForPost usetToUserResponseForPost(User user);
 
     @Mapping(target = "roles", ignore = true)
+    @Mapping(target = "phoneNumber", ignore = true)
     User newUserResponseToUser(NewUserRequest request);
 }

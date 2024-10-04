@@ -2,22 +2,21 @@ package org.callboard.dto.userDto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.callboard.annotations.NameValidation;
 import org.callboard.annotations.PasswordValidation;
 import org.callboard.annotations.StringFormatValidation;
+import org.callboard.dto.Request;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.stereotype.Component;
 
 @Component
 @Data
+@EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class NewUserRequest {
+public class NewUserRequest extends Request {
 
     @NotBlank
     @StringFormatValidation(groups = {NameValidation.class})

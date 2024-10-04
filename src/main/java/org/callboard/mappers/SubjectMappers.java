@@ -7,5 +7,4 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface SubjectMappers {
     SubjectResponse toSubjectResponse(Subject subject);
-    Subject toSubject(SubjectResponse subjectResponse);
 }

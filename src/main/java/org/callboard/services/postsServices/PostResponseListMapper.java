@@ -6,8 +6,8 @@ import org.callboard.entities.Post;
 import org.callboard.mappers.PostMappers;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PostResponseListMapper {
@@ -17,11 +17,5 @@ public class PostResponseListMapper {
         return posts.stream()
                 .map(postMappers::toPostResponse)
                 .toList();
-    }
-
-    public List<PostResponse> mapPostToPostResponseList(Post post) {
-        List<PostResponse> postResponseList = new ArrayList<>();
-        postResponseList.add(postMappers.toPostResponse(post));
-        return postResponseList;
     }
 }

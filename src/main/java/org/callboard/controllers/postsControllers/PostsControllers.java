@@ -3,7 +3,9 @@ package org.callboard.controllers.postsControllers;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.callboard.dto.StandardStringRequest;
 import org.callboard.dto.postDto.NewPostRequest;
+import org.callboard.dto.postDto.PostListResponse;
 import org.callboard.dto.postDto.PostResponse;
 import org.callboard.dto.postDto.UpdatePostRequest;
 import org.callboard.services.postsServices.CreatePostService;
@@ -27,23 +29,23 @@ public class PostsControllers {
 
 
     @PostMapping
-    public ResponseEntity<List<PostResponse>> createNewPost(@Valid @RequestBody NewPostRequest request) {
+    public ResponseEntity<PostResponse> createNewPost(@Valid @RequestBody NewPostRequest request) {
         return createPostService.execute(request);
     }
 
     @PostMapping("/update")
-    public ResponseEntity<List<PostResponse>> updatePost(@Valid @RequestBody UpdatePostRequest request) {
+    public ResponseEntity<PostResponse> updatePost(@Valid @RequestBody UpdatePostRequest request) {
         return updatePostService.execute(request);
     }
 
     @GetMapping
-    public ResponseEntity<List<PostResponse>> getAllPosts() {
+    public ResponseEntity<PostListResponse> getAllPosts() {
         return findAllPostsService.findAllPosts();
     }
 
     @GetMapping("/{subject}")
-    public ResponseEntity<List<PostResponse>> getPostsBySubject(@PathVariable String subject) {
-        return findPostsBySubjectService.execute(subject);
+    public ResponseEntity<PostListResponse> getPostsBySubject(@PathVariable String subject) {
+        return findPostsBySubjectService.execute(new StandardStringRequest(subject));
     }
 
 }
