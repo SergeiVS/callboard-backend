@@ -1,4 +1,4 @@
-package org.callboard.services.securityService;
+package org.callboard.security.securityService;
 
 import lombok.RequiredArgsConstructor;
 import org.callboard.entities.User;
@@ -16,7 +16,7 @@ public class UserToUserDetailsMapper implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return user.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority(role.getRoleName()))
+                .map(role -> new SimpleGrantedAuthority(STR."ROLE_\{role.getRoleName()}"))
                 .toList();
 //        return Collections.singletonList(new SimpleGrantedAuthority(STR."Role_\{user.getRoles()}"));
     }

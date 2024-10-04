@@ -1,4 +1,4 @@
-package org.callboard.services.securityService;
+package org.callboard.security.securityService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +26,7 @@ public class AppUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         log.info(STR."Loading user by email: \{email}");
+
         User user = userRepositoryService.findUserByEmail(email)
                 .orElseThrow(() -> new NotFoundException(STR."User with email: \{email} not found"));
 

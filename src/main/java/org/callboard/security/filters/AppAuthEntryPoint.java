@@ -1,4 +1,4 @@
-package org.callboard.security;
+package org.callboard.security.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;

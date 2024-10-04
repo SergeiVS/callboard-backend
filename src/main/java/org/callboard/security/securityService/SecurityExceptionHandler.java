@@ -1,4 +1,4 @@
-package org.callboard.services.securityService;
+package org.callboard.security.securityService;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.JwtException;

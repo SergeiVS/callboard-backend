@@ -11,11 +11,13 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class OpenApiConfig {
+
+
     @Bean
     public GroupedOpenApi postsAPI() {
         return GroupedOpenApi.builder()
                 .group("Posts")
-                .pathsToMatch("/api/posts")
+                .pathsToMatch("/api/posts/**")
                 .build();
     }
 
@@ -23,7 +25,7 @@ public class OpenApiConfig {
     public GroupedOpenApi authenticationAPI() {
         return GroupedOpenApi.builder()
                 .group("Authentication")
-                .pathsToMatch("/api/auth")
+                .pathsToMatch("/api/auth/**")
                 .build();
     }
 
@@ -31,7 +33,7 @@ public class OpenApiConfig {
     public GroupedOpenApi usersAPI() {
         return GroupedOpenApi.builder()
                 .group("Users")
-                .pathsToMatch("/api/users")
+                .pathsToMatch("/api/users/**")
                 .build();
     }
 

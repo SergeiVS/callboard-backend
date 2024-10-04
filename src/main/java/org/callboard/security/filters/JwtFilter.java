@@ -1,4 +1,4 @@
-package org.callboard.security;
+package org.callboard.security.filters;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -6,8 +6,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.callboard.services.securityService.AppUserDetailsService;
-import org.callboard.services.securityService.JwtProvider;
+import org.callboard.security.securityService.AppUserDetailsService;
+import org.callboard.security.securityService.JwtProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -32,7 +32,7 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
-            if (request.getRequestURI().startsWith("/swagger-ui.html") || request.getRequestURI().startsWith("/v3/api-docs")) {
+            if (request.getRequestURI().startsWith("/swagger-ui") || request.getRequestURI().startsWith("/v3/api-docs")) {
                 filterChain.doFilter(request, response);
                 return;
             }

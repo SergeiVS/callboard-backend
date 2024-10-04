@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.callboard.dto.StandardResponse;
 import org.callboard.dto.authDto.AuthenticationRequest;
-import org.callboard.services.securityService.CreateJwtService;
+import org.callboard.security.securityService.CreateJwtService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 

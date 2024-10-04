@@ -6,15 +6,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.callboard.dto.userDto.NewUserRequest;
 import org.callboard.dto.userDto.UserResponse;
 import org.callboard.entities.User;
+import org.callboard.exceptions.AlreadyExistException;
 import org.callboard.mappers.UserMappers;
-import org.callboard.repositories.UserRepository;
 import org.callboard.services.rolesServices.RolesRepositoryService;
-import org.callboard.services.securityService.CreateJwtService;
+import org.callboard.security.securityService.CreateJwtService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -35,6 +32,7 @@ public class CreateUserService implements UserServiceInterface<UserResponse, New
         User userForSave = getUserForSaveFromRequest(request);
 
         User savedUser = userRepoService.saveUser(userForSave);
+
         UserResponse userResponse = userMappers.userToUserResponse(savedUser);
         userResponse.setMessage(createJwtService.createJwt(request.getEmail(), request.getPassword()));
 
@@ -43,6 +41,10 @@ public class CreateUserService implements UserServiceInterface<UserResponse, New
 
     private User getUserForSaveFromRequest(NewUserRequest request) {
         User userForSave = userMappers.newUserResponseToUser(request);
+
+        if (userRepoService.existsUserByEmail(request.getEmail())) {
+            throw new AlreadyExistException(STR."User with email \{request.getEmail()} already exists");
+        }
 
         if (request.getPhoneNumber() != null) {
             userForSave.setPhoneNumber(request.getPhoneNumber());
