@@ -9,7 +9,7 @@ import org.callboard.entities.User;
 import org.callboard.exceptions.AlreadyExistException;
 import org.callboard.mappers.UserMappers;
 import org.callboard.services.rolesServices.RolesRepositoryService;
-import org.callboard.security.securityService.CreateJwtService;
+import org.callboard.securities.securityService.CreateJwtService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

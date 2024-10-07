@@ -1,4 +1,4 @@
-package org.callboard.security.securityService;
+package org.callboard.securities.securityService;
 
 import jakarta.security.auth.message.AuthException;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package org.callboard.security.filters;
+package org.callboard.securities.filters;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

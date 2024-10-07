@@ -1,4 +1,4 @@
-package org.callboard.security.filters;
+package org.callboard.securities.filters;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -6,8 +6,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.callboard.security.securityService.AppUserDetailsService;
-import org.callboard.security.securityService.JwtProvider;
+import org.callboard.securities.securityService.AppUserDetailsService;
+import org.callboard.securities.securityService.JwtProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;

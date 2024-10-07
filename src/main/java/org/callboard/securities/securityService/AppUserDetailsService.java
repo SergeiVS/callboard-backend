@@ -1,4 +1,4 @@
-package org.callboard.security.securityService;
+package org.callboard.securities.securityService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

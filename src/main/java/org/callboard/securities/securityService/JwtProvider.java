@@ -1,4 +1,4 @@
-package org.callboard.security.securityService;
+package org.callboard.securities.securityService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
