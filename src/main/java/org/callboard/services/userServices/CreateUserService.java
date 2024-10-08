@@ -1,6 +1,5 @@
 package org.callboard.services.userServices;
 
-import jakarta.security.auth.message.AuthException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.callboard.dto.userDto.NewUserRequest;
@@ -25,7 +24,7 @@ public class CreateUserService implements UserServiceInterface<UserResponse, New
     private final RolesRepositoryService rolesRepoService;
 
     @Override
-    public ResponseEntity<UserResponse> execute(NewUserRequest request) throws AuthException {
+    public UserResponse execute(NewUserRequest request) {
 
         User userForSave = getUserForSaveFromRequest(request);
 
@@ -33,7 +32,7 @@ public class CreateUserService implements UserServiceInterface<UserResponse, New
 
         UserResponse userResponse = userMappers.userToUserResponse(savedUser);
 
-        return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
+        return userResponse;
     }
 
     private User getUserForSaveFromRequest(NewUserRequest request) {

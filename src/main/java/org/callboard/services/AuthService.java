@@ -13,11 +13,13 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class AuthService {
 
-    public ResponseEntity<StandardResponse> authenticateUser(AuthenticationRequest request) throws AuthException {
+    public StandardResponse authenticateUser(AuthenticationRequest request) throws AuthException {
 
         String username = request.getEmail();
         String password = request.getPassword();
 
-        return ResponseEntity.ok(new StandardResponse("Logged on"));
+        log.info(STR."UserName: \{username} Password: \{password}");
+
+        return new StandardResponse("Logged on");
     }
 }

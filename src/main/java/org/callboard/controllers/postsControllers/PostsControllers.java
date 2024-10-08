@@ -3,6 +3,7 @@ package org.callboard.controllers.postsControllers;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.callboard.dto.StandardStringRequest;
 import org.callboard.dto.postDto.NewPostRequest;
 import org.callboard.dto.postDto.PostListResponse;
@@ -12,11 +13,13 @@ import org.callboard.services.postsServices.CreatePostService;
 import org.callboard.services.postsServices.FindAllPostsService;
 import org.callboard.services.postsServices.FindPostsBySubjectService;
 import org.callboard.services.postsServices.UpdatePostService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/posts")
 @RequiredArgsConstructor
@@ -30,22 +33,23 @@ public class PostsControllers {
 
     @PostMapping
     public ResponseEntity<PostResponse> createNewPost(@Valid @RequestBody NewPostRequest request) {
-        return createPostService.execute(request);
+        log.info(request.toString());
+        return new  ResponseEntity<>(createPostService.execute(request), HttpStatus.CREATED);
     }
 
     @PostMapping("/update")
     public ResponseEntity<PostResponse> updatePost(@Valid @RequestBody UpdatePostRequest request) {
-        return updatePostService.execute(request);
+        return new ResponseEntity<>( updatePostService.execute(request), HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity<PostListResponse> getAllPosts() {
-        return findAllPostsService.findAllPosts();
+        return new  ResponseEntity<>(findAllPostsService.findAllPosts(), HttpStatus.FOUND);
     }
 
     @GetMapping("/{subject}")
     public ResponseEntity<PostListResponse> getPostsBySubject(@PathVariable String subject) {
-        return findPostsBySubjectService.execute(new StandardStringRequest(subject));
+         return new  ResponseEntity<>(findPostsBySubjectService.execute(new StandardStringRequest(subject)), HttpStatus.FOUND);
     }
 
 }

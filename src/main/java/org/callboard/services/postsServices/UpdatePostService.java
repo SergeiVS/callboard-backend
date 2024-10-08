@@ -27,11 +27,11 @@ public class UpdatePostService implements PostServiceInterface<PostResponse, Upd
 
     @Transactional
     @Override
-    public ResponseEntity<PostResponse> execute(UpdatePostRequest request) {
+    public PostResponse execute(UpdatePostRequest request) {
 
         Post post = savePost(request);
 
-        return new ResponseEntity<>(postMappers.toPostResponse(post), HttpStatus.OK);
+        return postMappers.toPostResponse(post);
     }
 
 

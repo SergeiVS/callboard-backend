@@ -28,11 +28,11 @@ public class AuthController {
     @PostMapping
     public ResponseEntity<StandardResponse> authenticateUser(@Valid @RequestBody AuthenticationRequest request) throws AuthException {
         log.info("Authenticating user: {}", request);
-        return authService.authenticateUser(request);
+        return ResponseEntity.ok(authService.authenticateUser(request));
     }
 
     @PostMapping("/signing")
     public ResponseEntity<UserResponse> signing(@Valid @RequestBody NewUserRequest request) throws AuthException {
-        return createUserService.execute(request);
+        return ResponseEntity.ok(createUserService.execute(request));
     }
 }
