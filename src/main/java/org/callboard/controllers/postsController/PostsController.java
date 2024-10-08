@@ -1,4 +1,4 @@
-package org.callboard.controllers.postsControllers;
+package org.callboard.controllers.postsController;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.validation.Valid;
@@ -17,13 +17,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Slf4j
 @RestController
 @RequestMapping("/api/posts")
 @RequiredArgsConstructor
-public class PostsControllers {
+public class PostsController {
 
     private final CreatePostService createPostService;
     private final UpdatePostService updatePostService;

@@ -1,14 +1,15 @@
-package org.callboard.controllers;
+package org.callboard.controllers.authController;
 
 import jakarta.security.auth.message.AuthException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.callboard.dto.StandardResponse;
+import org.callboard.dto.authDto.AuthResponse;
 import org.callboard.dto.authDto.AuthenticationRequest;
 import org.callboard.dto.userDto.NewUserRequest;
 import org.callboard.dto.userDto.UserResponse;
-import org.callboard.services.AuthService;
+import org.callboard.services.authService.AuthService;
 import org.callboard.services.userServices.CreateUserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +27,7 @@ public class AuthController {
     private final CreateUserService createUserService;
 
     @PostMapping
-    public ResponseEntity<StandardResponse> authenticateUser(@Valid @RequestBody AuthenticationRequest request) throws AuthException {
+    public ResponseEntity<AuthResponse> authenticateUser(@Valid @RequestBody AuthenticationRequest request) throws AuthException {
         log.info("Authenticating user: {}", request);
         return ResponseEntity.ok(authService.authenticateUser(request));
     }
