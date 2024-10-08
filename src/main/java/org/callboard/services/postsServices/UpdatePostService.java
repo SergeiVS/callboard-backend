@@ -23,7 +23,7 @@ import java.util.List;
 public class UpdatePostService implements PostServiceInterface<PostResponse, UpdatePostRequest> {
 
     private final PostRepositoryService postRepoService;
-    PostMappers postMappers;
+    private final PostMappers postMappers;
 
     @Transactional
     @Override
@@ -31,7 +31,9 @@ public class UpdatePostService implements PostServiceInterface<PostResponse, Upd
 
         Post post = savePost(request);
 
-        return postMappers.toPostResponse(post);
+        Post savedPost = postRepoService.save(post);
+
+        return postMappers.toPostResponse(savedPost);
     }
 
 
