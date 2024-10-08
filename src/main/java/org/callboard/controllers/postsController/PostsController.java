@@ -1,6 +1,5 @@
 package org.callboard.controllers.postsController;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,12 +29,12 @@ public class PostsController {
 
 
     @PostMapping
-    public ResponseEntity<PostResponse> createNewPost(@Valid @RequestBody NewPostRequest request) {
+    public ResponseEntity<PostResponse> createNewPost(@RequestBody NewPostRequest request) {
         log.info(request.toString());
         return new  ResponseEntity<>(createPostService.execute(request), HttpStatus.CREATED);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseEntity<PostResponse> updatePost(@Valid @RequestBody UpdatePostRequest request) {
         return new ResponseEntity<>( updatePostService.execute(request), HttpStatus.OK);
     }
