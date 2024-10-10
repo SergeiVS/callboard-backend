@@ -1,85 +1,78 @@
 package org.callboard.security;
 
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.io.Decoders;
 import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.callboard.entities.User;
+import org.callboard.exceptions.InvalidJwtException;
+import org.callboard.services.userServices.UserRepositoryService;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import javax.crypto.SecretKey;
+
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
-@Component
+@Service
 @Slf4j
+@RequiredArgsConstructor
 public class JwtProvider {
-    @Value("HUHerfjewhewu47585903JOIiIJOU4QOoiu8h73")
-    private  String jwtSecret;
+
+    private final UserRepositoryService userRepositoryService;
 
     private final Key jwtAccessSecret = getSecretKey();
 
     @Value("300000")
-    private  long expireAt;
+    private long expireAt;
 
-   public String generateJwtSecret(User user) {
-       final LocalDateTime now = LocalDateTime.now();
-       final Instant accessExpirationInstant = now.plusMinutes(5).atZone(ZoneId.systemDefault()).toInstant();
-       final Date accessExpiration = Date.from(accessExpirationInstant);
-       return Jwts.builder()
-               .setSubject(user.getEmail())
-               .setExpiration(accessExpiration)
-               .signWith(jwtAccessSecret)
-               .claim("roles", getRoles(user))
-               .compact();
+    public String generateJwtToken(String email) {
+        User user = userRepositoryService.findUserByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
 
-   }
+        final Date now = new Date();
+        final Date accessExpiration = new Date(now.getTime() + expireAt);
+        return Jwts.builder()
+                .setSubject(email)
+                .setExpiration(accessExpiration)
+                .claim("roles", getRoles(user))
+                .signWith(jwtAccessSecret)
+                .compact();
 
+    }
+
+
+    public boolean validateToken(@NotNull String token) {
+        getClaims(token);
+        return true;
+    }
+
+    public String getUserName(@NotNull String token) {
+        return getClaims(token).getSubject();
+    }
+
+
+    private Claims getClaims(@NotNull String token) {
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(getSecretKey())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (JwtException e) {
+            throw new InvalidJwtException("Invalid JWT token: " + e.getMessage());
+        }
+
+    }
+
+
+    private Key getSecretKey() {
+        String jwtSecret = "HUHerfjewhewu47585903JOIiIJOU4QOoiu8h73";
+        return new SecretKeySpec(jwtSecret.getBytes(), SignatureAlgorithm.HS256.getJcaName());
+    }
 
     private List<String> getRoles(User user) {
-       return user.getRoles().stream().map(role -> "Role_"+ role.getRoleName()).toList();
+        return user.getRoles().stream().map(role -> "Role_" + role.getRoleName()).toList();
     }
-
-    private boolean validateToken(@NotNull String token, @NotNull Key secret) {
-        try {
-            Jwts.parserBuilder()
-                    .setSigningKey(secret)
-                    .build()
-                    .parseClaimsJws(token);
-            return true;
-        } catch (ExpiredJwtException expEx) {
-            log.error("Token expired", expEx);
-        } catch (UnsupportedJwtException unsEx) {
-            log.error("Unsupported jwt", unsEx);
-        } catch (MalformedJwtException mjEx) {
-            log.error("Malformed jwt", mjEx);
-        } catch (Exception e) {
-            log.error("invalid token", e);
-        }
-        return false;
-    }
-
-    public Claims getAccessClaims(@NotNull String token) {
-        return getClaims(token, jwtAccessSecret);
-    }
-
-    private Claims getClaims(@NotNull String token, @NotNull Key secret) {
-        return Jwts.parserBuilder()
-                .setSigningKey(secret)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-    }
-
-
-
-    private SecretKey getSecretKey(){
-        return new SecretKeySpec(Decoders.BASE64.decode(jwtSecret), "AES");
-    };
 }

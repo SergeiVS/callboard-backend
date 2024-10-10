@@ -6,6 +6,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.callboard.dto.StandardResponse;
 import org.callboard.dto.authDto.AuthResponse;
 import org.callboard.dto.authDto.AuthenticationRequest;
+import org.callboard.security.JwtProvider;
+import org.callboard.services.userServices.UserRepositoryService;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,13 +19,53 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class AuthService {
 
+    private final UserRepositoryService userRepositoryService;
+    private final JwtProvider jwtProvider;
+    private final AuthenticationManager authenticationManager;
+
     public AuthResponse authenticateUser(AuthenticationRequest request) throws AuthException {
 
         String username = request.getEmail();
         String password = request.getPassword();
 
-        log.info(STR."UserName: \{username} Password: \{password}");
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(username, password)
+            );
 
-        return new AuthResponse();
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            log.info("Запрос на создание jwt от " + username + ", " + password);
+
+            String jwt = jwtProvider.generateJwtToken(authentication.getName());
+
+            return new AuthResponse(jwt);
+        } catch (Exception e) {
+            log.error("Authentication failed for user: " + username, e);
+            throw e;
+        }
+    }
+    private AuthResponse authenticateUser(String username, String password) {
+
+        log.info("Authenticate user: " + username);
+
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(username, password)
+            );
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            log.info("Запрос на создание jwt от " + username + ", " + password);
+
+            String jwt = jwtProvider.generateJwtToken(authentication.getName());
+
+            return new AuthResponse(jwt);
+        } catch (Exception e) {
+            log.error("Authentication failed for user: " + username, e);
+            throw e;
+        }
+
+
     }
 }
