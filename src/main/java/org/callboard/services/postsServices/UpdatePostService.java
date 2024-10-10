@@ -23,15 +23,17 @@ import java.util.List;
 public class UpdatePostService implements PostServiceInterface<PostResponse, UpdatePostRequest> {
 
     private final PostRepositoryService postRepoService;
-    PostMappers postMappers;
+    private final PostMappers postMappers;
 
     @Transactional
     @Override
-    public ResponseEntity<PostResponse> execute(UpdatePostRequest request) {
+    public PostResponse execute(UpdatePostRequest request) {
 
         Post post = savePost(request);
 
-        return new ResponseEntity<>(postMappers.toPostResponse(post), HttpStatus.OK);
+        Post savedPost = postRepoService.save(post);
+
+        return postMappers.toPostResponse(savedPost);
     }
 
 

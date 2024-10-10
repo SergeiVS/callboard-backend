@@ -2,6 +2,7 @@ package org.callboard.services.postsServices;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.callboard.dto.postDto.NewPostRequest;
 import org.callboard.dto.postDto.PostResponse;
 import org.callboard.entities.Post;
@@ -21,7 +22,8 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class CreatePostService implements PostServiceInterface<PostResponse,NewPostRequest> {
+@Slf4j
+public class CreatePostService implements PostServiceInterface<PostResponse, NewPostRequest> {
 
     private final PostRepositoryService postRepoService;
     private final PostMappers postMappers;
@@ -30,22 +32,23 @@ public class CreatePostService implements PostServiceInterface<PostResponse,NewP
 
     @Transactional
     @Override
-    public ResponseEntity<PostResponse> execute(NewPostRequest request) {
-
+    public PostResponse execute(NewPostRequest request) {
+        log.info(request.toString());
         Post postForSave = getPostForSave(request);
 
         Post savedPost = postRepoService.save(postForSave);
 
-        return new ResponseEntity<>(postMappers.toPostResponse(savedPost), HttpStatus.CREATED);
+        return postMappers.toPostResponse(savedPost);
     }
 
 
     private @NotNull Post getPostForSave(NewPostRequest request) {
 
+
         Post postForSave = postMappers.toPost(request);
 
         Subject subject = subjectRepoService.findByName(request.getSubject())
-                .orElseThrow(()->new NotFoundException(STR."Subject: \{request.getSubject()} not found"));
+                .orElseThrow(() -> new NotFoundException(STR."Subject: \{request.getSubject()} not found"));
 
         postForSave.setSubject(subject);
 

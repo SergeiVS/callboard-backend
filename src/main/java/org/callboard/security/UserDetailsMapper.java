@@ -1,24 +1,31 @@
-package org.callboard.security.securityService;
+package org.callboard.security;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.callboard.entities.Role;
 import org.callboard.entities.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
 @RequiredArgsConstructor
-public class UserToUserDetailsMapper implements UserDetails {
+@Slf4j
+public class UserDetailsMapper implements UserDetails {
 
     private final User user;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+
         return user.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(STR."ROLE_\{role.getRoleName()}"))
                 .toList();
-//        return Collections.singletonList(new SimpleGrantedAuthority(STR."Role_\{user.getRoles()}"));
     }
 
     @Override
@@ -50,4 +57,6 @@ public class UserToUserDetailsMapper implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 }

@@ -17,14 +17,12 @@ public class FindAllPostsService {
     private final PostRepositoryService postRepoService;
     private final PostResponseListMapper postResponseListMapper;
 
-    public ResponseEntity<PostListResponse> findAllPosts() {
+    public PostListResponse findAllPosts() {
 
         List<Post> posts = postRepoService.findAll();
 
-        PostListResponse response = PostListResponse.builder()
+        return PostListResponse.builder()
                 .responses(postResponseListMapper.mapPostsListToPostResponseList(posts))
                 .build();
-
-        return new ResponseEntity<>(response, HttpStatus.FOUND);
     }
 }

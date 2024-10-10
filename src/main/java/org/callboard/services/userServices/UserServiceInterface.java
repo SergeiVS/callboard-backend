@@ -9,5 +9,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UserServiceInterface<T extends Response, S extends Request> {
 
-    ResponseEntity< T> execute(S s) throws AuthException;
+    T execute(S s) throws AuthException;
 }

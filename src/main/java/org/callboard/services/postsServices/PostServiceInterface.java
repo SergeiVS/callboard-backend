@@ -11,5 +11,5 @@ import java.util.List;
 @Service
 public interface PostServiceInterface<T extends Response, S extends Request> {
 
-    ResponseEntity<T> execute(S s);
+    T  execute(S s);
 }

@@ -19,5 +19,4 @@ public class UserResponse extends Response {
     private String lastName;
     private String email;
     private String phoneNumber;
-    private String message;
 }

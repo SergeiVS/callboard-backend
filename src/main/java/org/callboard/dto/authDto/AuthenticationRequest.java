@@ -12,6 +12,6 @@ public class AuthenticationRequest {
     @Email
     private String email;
     @NotBlank
-//    @StringFormatValidation(groups = PasswordValidation.class)
+    @StringFormatValidation(groups = PasswordValidation.class)
     private String password;
 }

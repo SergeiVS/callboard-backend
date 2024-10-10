@@ -18,15 +18,13 @@ public class FindPostsBySubjectService implements PostServiceInterface<PostListR
   private final PostResponseListMapper postResponseListMapper;
 
     @Override
-    public ResponseEntity<PostListResponse> execute(StandardStringRequest subjectName) {
+    public PostListResponse execute(StandardStringRequest subjectName) {
 
         List<Post> posts = postRepositoryService.findBySubject(subjectName.getParameter().toUpperCase());
 
-        PostListResponse postListResponse = PostListResponse.builder()
+        return PostListResponse.builder()
                 .responses(postResponseListMapper.mapPostsListToPostResponseList(posts))
                 .build();
-
-        return new ResponseEntity<>(postListResponse, HttpStatus.FOUND);
     }
 
 }

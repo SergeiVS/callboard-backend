@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
