@@ -2,20 +2,25 @@ package org.callboard.controllers.authController;
 
 import jakarta.security.auth.message.AuthException;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.callboard.dto.StandardResponse;
+import org.callboard.dto.StandardStringRequest;
 import org.callboard.dto.authDto.AuthResponse;
 import org.callboard.dto.authDto.AuthenticationRequest;
 import org.callboard.dto.userDto.NewUserRequest;
 import org.callboard.dto.userDto.UserResponse;
 import org.callboard.services.authService.AuthService;
 import org.callboard.services.userServices.CreateUserService;
+import org.callboard.services.userServices.FindUserByEmailService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -25,6 +30,7 @@ public class AuthController {
 
     private final AuthService authService;
     private final CreateUserService createUserService;
+    private final FindUserByEmailService findUserByEmailService;
 
     @PostMapping
     public ResponseEntity<AuthResponse> authenticateUser(@Valid @RequestBody AuthenticationRequest request) throws AuthException {
@@ -35,5 +41,13 @@ public class AuthController {
     @PostMapping("/signing")
     public ResponseEntity<UserResponse> signing(@Valid @RequestBody NewUserRequest request) throws AuthException {
         return ResponseEntity.ok(createUserService.execute(request));
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserResponse> getUserData(@NotNull(message = "User is not authorized") Principal principal) throws AuthException {
+
+        UserResponse response = findUserByEmailService.execute(new StandardStringRequest(principal.getName()));
+
+        return ResponseEntity.ok(response);
     }
 }

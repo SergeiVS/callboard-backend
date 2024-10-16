@@ -35,37 +35,15 @@ public class AuthService {
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            log.info("Запрос на создание jwt от " + username + ", " + password);
+            log.info(STR."Запрос на создание jwt от \{username}, \{password}");
 
             String jwt = jwtProvider.generateJwtToken(authentication.getName());
 
             return new AuthResponse(jwt);
         } catch (Exception e) {
-            log.error("Authentication failed for user: " + username, e);
+            log.error(STR."Authentication failed for user: \{username}", e);
             throw e;
         }
     }
-    private AuthResponse authenticateUser(String username, String password) {
 
-        log.info("Authenticate user: " + username);
-
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(username, password)
-            );
-
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
-            log.info("Запрос на создание jwt от " + username + ", " + password);
-
-            String jwt = jwtProvider.generateJwtToken(authentication.getName());
-
-            return new AuthResponse(jwt);
-        } catch (Exception e) {
-            log.error("Authentication failed for user: " + username, e);
-            throw e;
-        }
-
-
-    }
 }
