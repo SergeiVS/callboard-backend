@@ -25,7 +25,7 @@ public class JwtProvider {
 
     private final Key jwtAccessSecret = getSecretKey();
 
-    @Value("300000")
+    @Value("3000000")
     private long expireAt;
 
     public String generateJwtToken(String email) {
