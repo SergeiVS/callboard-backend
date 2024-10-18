@@ -13,8 +13,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 
-
+@ControllerAdvice
 public class SecurityExceptionHandlers {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();

@@ -35,7 +35,7 @@ public class AuthService {
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            log.info(STR."Запрос на создание jwt от \{username}, \{password}");
+            log.info(STR."Request to create jwt token \{username}, \{password}");
 
             String jwt = jwtProvider.generateJwtToken(authentication.getName());
 

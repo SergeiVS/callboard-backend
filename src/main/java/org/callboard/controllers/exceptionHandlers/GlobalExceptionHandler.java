@@ -8,6 +8,7 @@ import org.callboard.exceptions.IllegalRequestParamException;
 import org.callboard.exceptions.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -27,6 +28,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(IllegalRequestParamException.class)
     public ResponseEntity<ErrorResponseDto> handleIllegalRequestParamException(IllegalRequestParamException e) {
         return buildResponse(e.getMessage(), "IllegalRequestParamException", HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ErrorResponseDto> handleBadCredentialsException(BadCredentialsException e) {
+
+        return buildResponse(e.getMessage(), "BadCredentialsException", HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
