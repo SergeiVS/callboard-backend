@@ -1,11 +1,16 @@
 package org.callboard.controllers.userController;
 
+import jakarta.security.auth.message.AuthException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.callboard.dto.StandardResponse;
+import org.callboard.dto.userDto.UpdateUserRequest;
 import org.callboard.entities.User;
 import org.callboard.repositories.UserRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.callboard.services.userServices.UpdateUserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -14,8 +19,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
     private final UserRepository userRepository;
+    private final UpdateUserService updateUserService;
+
     @GetMapping
-    List<User> getAlluser(){
-      return userRepository.findAll();
+    List<User> getAlluser() {
+        return userRepository.findAll();
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<StandardResponse> updateUser(@Valid @RequestBody UpdateUserRequest request) throws AuthException {
+        return new ResponseEntity<>(updateUserService.execute(request), HttpStatus.OK);
     }
 }

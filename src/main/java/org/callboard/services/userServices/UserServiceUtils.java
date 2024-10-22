@@ -10,4 +10,5 @@ public class UserServiceUtils {
     public static List<String> getUserRoles(User user) {
         return user.getRoles().stream().map(Role::getRoleName).toList();
     }
+
 }
