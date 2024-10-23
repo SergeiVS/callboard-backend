@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.callboard.dto.postDto.NewPostRequest;
 import org.callboard.dto.postDto.PostCreateSuccessResponse;
-import org.callboard.dto.postDto.PostResponse;
 import org.callboard.entities.Post;
 import org.callboard.entities.Subject;
 import org.callboard.entities.User;
@@ -14,12 +13,7 @@ import org.callboard.mappers.PostMappers;
 import org.callboard.services.subjectService.SubjectRepositoryService;
 import org.callboard.services.userServices.UserRepositoryService;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
