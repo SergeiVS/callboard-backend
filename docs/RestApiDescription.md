@@ -168,6 +168,25 @@
         "phonenumber": "1234567890",
         "email": "ivanov@example.com"
     }
-    - 
+      an  Alle
+      <dependency>
+      <groupId>org.mapstruct</groupId>
+      <artifactId>mapstruct</artifactId>
+      <version>1.5.5.Final</version>
+      </dependency>
+      <dependency>
+      <groupId>org.mapstruct</groupId>
+      <artifactId>mapstruct-processor</artifactId>
+      <version>1.5.5.Final</version>
+      <scope>provided</scope>
+      </dependency>
+      <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok-mapstruct-binding</artifactId>
+      <version>0.2.0</version>
+      </dependency>
+
+Vera Arkind 21:47
+</dependency>
 - **HTTP Status**: `200 OK`
 - **Страница на фронтенде**: Форма редактирования профиля.

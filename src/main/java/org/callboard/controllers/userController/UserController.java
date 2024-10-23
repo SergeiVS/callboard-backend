@@ -22,7 +22,7 @@ public class UserController {
     private final UpdateUserService updateUserService;
 
     @GetMapping
-    List<User> getAlluser() {
+    List<User> getAllUser() {
         return userRepository.findAll();
     }
 

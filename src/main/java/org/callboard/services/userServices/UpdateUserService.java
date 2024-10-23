@@ -34,7 +34,7 @@ public class UpdateUserService implements UserServiceInterface<StandardResponse,
     }
 
     private static void setNewPhoneNumberToUser(User userForSave, UpdateUserRequest request) {
-        if (request.getPhoneNumber() == null) {
+        if (request.getPhoneNumber() == null || request.getPhoneNumber().isEmpty()) {
             userForSave.setPhoneNumber("N/A");
         } else {
             userForSave.setPhoneNumber(request.getPhoneNumber());

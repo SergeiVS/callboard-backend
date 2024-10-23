@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.callboard.dto.postDto.NewPostRequest;
+import org.callboard.dto.postDto.PostCreateSuccessResponse;
 import org.callboard.dto.postDto.PostResponse;
 import org.callboard.entities.Post;
 import org.callboard.entities.Subject;
@@ -23,7 +24,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class CreatePostService implements PostServiceInterface<PostResponse, NewPostRequest> {
+public class CreatePostService implements PostServiceInterface<PostCreateSuccessResponse, NewPostRequest> {
 
     private final PostRepositoryService postRepoService;
     private final PostMappers postMappers;
@@ -32,13 +33,13 @@ public class CreatePostService implements PostServiceInterface<PostResponse, New
 
     @Transactional
     @Override
-    public PostResponse execute(NewPostRequest request) {
+    public PostCreateSuccessResponse execute(NewPostRequest request) {
         log.info(request.toString());
         Post postForSave = getPostForSave(request);
 
         Post savedPost = postRepoService.save(postForSave);
 
-        return postMappers.toPostResponse(savedPost);
+        return new PostCreateSuccessResponse(savedPost.getPostId(), STR."Your post is successfully added under id: \{savedPost.getPostId()}");
     }
 
 

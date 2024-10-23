@@ -2,6 +2,7 @@ package org.callboard.dto.userDto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import org.callboard.annotations.NameValidation;
 import org.callboard.annotations.PasswordValidation;
@@ -25,7 +26,7 @@ public class NewUserRequest extends Request {
     @StringFormatValidation(groups = {NameValidation.class})
     private String lastName;
     @NotBlank
-    @Email
+    @Email(regexp = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$")
     private String email;
     @NotBlank
     @StringFormatValidation(groups = {PasswordValidation.class})

@@ -4,10 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.callboard.dto.StandardStringRequest;
-import org.callboard.dto.postDto.NewPostRequest;
-import org.callboard.dto.postDto.PostListResponse;
-import org.callboard.dto.postDto.PostResponse;
-import org.callboard.dto.postDto.UpdatePostRequest;
+import org.callboard.dto.postDto.*;
 import org.callboard.services.postsServices.CreatePostService;
 import org.callboard.services.postsServices.FindAllPostsService;
 import org.callboard.services.postsServices.FindPostsBySubjectService;
@@ -29,7 +26,7 @@ public class PostsController {
 
 
     @PostMapping
-    public ResponseEntity<PostResponse> createNewPost(@RequestBody NewPostRequest request) {
+    public ResponseEntity<PostCreateSuccessResponse> createNewPost(@RequestBody NewPostRequest request) {
         log.info(request.toString());
         return new  ResponseEntity<>(createPostService.execute(request), HttpStatus.CREATED);
     }
