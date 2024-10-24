@@ -9,6 +9,7 @@ import org.callboard.entities.Post;
 import org.callboard.entities.Subject;
 import org.callboard.exceptions.NotFoundException;
 import org.callboard.mappers.PostMappers;
+import org.callboard.services.StandardServiceInterface;
 import org.callboard.services.subjectService.SubjectRepositoryService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
@@ -20,14 +21,14 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UpdatePostService implements PostServiceInterface<PostResponse, UpdatePostRequest> {
+public class UpdatePostService implements StandardServiceInterface<PostResponse, UpdatePostRequest> {
 
     private final PostRepositoryService postRepoService;
     private final PostMappers postMappers;
 
     @Transactional
     @Override
-    public PostResponse execute(UpdatePostRequest request) {
+    public PostResponse execute(UpdatePostRequest request) throws NotFoundException {
 
         Post post = savePost(request);
 

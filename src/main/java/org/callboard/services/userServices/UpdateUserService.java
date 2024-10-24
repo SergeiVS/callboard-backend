@@ -7,18 +7,19 @@ import org.callboard.dto.StandardResponse;
 import org.callboard.dto.userDto.UpdateUserRequest;
 import org.callboard.entities.User;
 import org.callboard.exceptions.NotFoundException;
+import org.callboard.services.StandardServiceInterface;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UpdateUserService implements UserServiceInterface<StandardResponse, UpdateUserRequest> {
+public class UpdateUserService implements StandardServiceInterface<StandardResponse, UpdateUserRequest> {
 
     private final UserRepositoryService userRepoService;
 
 
     @Override
     @Transactional
-    public StandardResponse execute(UpdateUserRequest request) throws AuthException {
+    public StandardResponse execute(UpdateUserRequest request)throws RuntimeException, AuthException {
         User userForSave = getUserForSave(request);
         validateUserEmail(userForSave, request.getEmail());
         addNewFieldsToUser(userForSave, request);

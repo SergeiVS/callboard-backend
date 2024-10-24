@@ -7,6 +7,7 @@ import org.callboard.dto.userDto.NewUserRequest;
 import org.callboard.entities.User;
 import org.callboard.exceptions.AlreadyExistException;
 import org.callboard.mappers.UserMappers;
+import org.callboard.services.StandardServiceInterface;
 import org.callboard.services.rolesServices.RolesRepositoryService;
 import org.springframework.stereotype.Service;
 
@@ -15,14 +16,14 @@ import java.util.HashSet;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class CreateUserService implements UserServiceInterface<StandardResponse, NewUserRequest> {
+public class CreateUserService implements StandardServiceInterface<StandardResponse, NewUserRequest> {
 
     private final UserRepositoryService userRepoService;
     private final UserMappers userMappers;
     private final RolesRepositoryService rolesRepoService;
 
     @Override
-    public StandardResponse execute(NewUserRequest request) {
+    public StandardResponse execute(NewUserRequest request) throws AlreadyExistException {
 
         User userForSave = getUserForSaveFromRequest(request);
 

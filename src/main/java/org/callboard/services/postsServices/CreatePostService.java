@@ -10,6 +10,7 @@ import org.callboard.entities.Subject;
 import org.callboard.entities.User;
 import org.callboard.exceptions.NotFoundException;
 import org.callboard.mappers.PostMappers;
+import org.callboard.services.StandardServiceInterface;
 import org.callboard.services.subjectService.SubjectRepositoryService;
 import org.callboard.services.userServices.UserRepositoryService;
 import org.jetbrains.annotations.NotNull;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class CreatePostService implements PostServiceInterface<PostCreateSuccessResponse, NewPostRequest> {
+public class CreatePostService implements StandardServiceInterface<PostCreateSuccessResponse, NewPostRequest> {
 
     private final PostRepositoryService postRepoService;
     private final PostMappers postMappers;

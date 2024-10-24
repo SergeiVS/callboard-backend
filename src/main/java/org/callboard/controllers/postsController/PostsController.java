@@ -42,7 +42,7 @@ public class PostsController {
     }
 
     @GetMapping("/{subject}")
-    public ResponseEntity<PostListResponse> getPostsBySubject(@PathVariable String subject) {
+    public ResponseEntity<PostListResponse> getPostsBySubject(@PathVariable String subject) throws Exception {
          return new  ResponseEntity<>(findPostsBySubjectService.execute(new StandardStringRequest(subject)), HttpStatus.FOUND);
     }
 
