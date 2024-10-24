@@ -3,22 +3,21 @@ package org.callboard.services.postsServices;
 import lombok.RequiredArgsConstructor;
 import org.callboard.dto.StandardStringRequest;
 import org.callboard.dto.postDto.PostListResponse;
-import org.callboard.dto.postDto.PostResponse;
 import org.callboard.entities.Post;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.callboard.services.StandardServiceInterface;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 @RequiredArgsConstructor
-public class FindPostsBySubjectService implements PostServiceInterface<PostListResponse, StandardStringRequest>{
+public class FindPostsBySubjectService implements StandardServiceInterface<PostListResponse, StandardStringRequest> {
 
-   private final PostRepositoryService postRepositoryService;
-  private final PostResponseListMapper postResponseListMapper;
+    private final PostRepositoryService postRepositoryService;
+    private final PostResponseListMapper postResponseListMapper;
 
     @Override
-    public PostListResponse execute(StandardStringRequest subjectName) {
+    public PostListResponse execute(StandardStringRequest subjectName) throws Exception {
 
         List<Post> posts = postRepositoryService.findBySubject(subjectName.getParameter().toUpperCase());
 
