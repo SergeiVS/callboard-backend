@@ -1,7 +1,9 @@
 package org.callboard.controllers.exceptionHandlers;
 
+import com.amazonaws.SdkClientException;
 import jakarta.security.auth.message.AuthException;
 import jakarta.validation.ConstraintViolationException;
+import lombok.extern.slf4j.Slf4j;
 import org.callboard.dto.errorDto.ErrorResponseDto;
 import org.callboard.exceptions.AlreadyExistException;
 import org.callboard.exceptions.IllegalRequestParamException;
@@ -12,7 +14,11 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.io.IOException;
+import java.util.Arrays;
+
 @ControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
@@ -58,7 +64,19 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponseDto> handleRuntimeException(RuntimeException e) {
+        log.error(Arrays.toString(e.getStackTrace()), e);
         return buildResponse(e.getMessage(), "RuntimeException", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<ErrorResponseDto> handleIOException(IOException e) {
+        return buildResponse(e.getMessage(), "IOException", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(SdkClientException.class)
+    public ResponseEntity<ErrorResponseDto> handleSdkClientException(SdkClientException e) {
+        log.error(Arrays.toString(e.getStackTrace()), e);
+        return buildResponse(e.getMessage(), "SdkClientException", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 
