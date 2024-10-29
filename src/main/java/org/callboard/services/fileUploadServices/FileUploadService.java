@@ -5,6 +5,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.callboard.dto.StandardResponse;
 import org.callboard.entities.FileInfo;
 import org.callboard.repositories.FileInfoRepository;
@@ -17,8 +18,8 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class FileUploadService {
-
+@Slf4j
+public class FileUploadService{
     private final AmazonS3 s3;
     private final FileInfoRepository fileInfoRepository;
 
@@ -33,20 +34,22 @@ public class FileUploadService {
         String newFileName = STR."\{UUID.randomUUID()}.\{extension}";
         InputStream inputStream = file.getInputStream();
 
+log.info(String.valueOf(s3.getRegion()));
+
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(file.getSize());
         metadata.setContentType(file.getContentType());
 
         PutObjectRequest request = new PutObjectRequest(
-                "help-app-images",
-                "images/" + fileName,
+                "help-app/photos",
+                 newFileName,
                 inputStream,
                 metadata
         ).withCannedAcl(CannedAccessControlList.PublicRead);
-
+        request.getRequestClientOptions().setReadLimit(2000000);
         s3.putObject(request);
 
-        String link = s3.getUrl("help-app-images", STR."images/\{fileName}").toString();
+        String link = s3.getUrl("help-app/photos", STR."{fileName}").toString();
 
         FileInfo fileInfo = FileInfo.builder()
                 .link(link)
