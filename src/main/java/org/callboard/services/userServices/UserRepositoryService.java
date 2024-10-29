@@ -2,6 +2,7 @@ package org.callboard.services.userServices;
 
 import lombok.RequiredArgsConstructor;
 import org.callboard.entities.User;
+import org.callboard.exceptions.NotFoundException;
 import org.callboard.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,11 @@ public class UserRepositoryService {
     }
     public boolean existsUserByEmail(String email) {
         return userRepository.existsByEmail(email);
+    }
+    public Integer findUserIdByEmail(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException(STR."User: \{email} not found"));
+        return user.getId();
     }
 
 }

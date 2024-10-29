@@ -5,13 +5,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.callboard.dto.StandardStringRequest;
 import org.callboard.dto.postDto.*;
-import org.callboard.services.postsServices.CreatePostService;
-import org.callboard.services.postsServices.FindAllPostsService;
-import org.callboard.services.postsServices.FindPostsBySubjectService;
-import org.callboard.services.postsServices.UpdatePostService;
+import org.callboard.services.postsServices.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @Slf4j
 @RestController
@@ -23,6 +22,7 @@ public class PostsController {
     private final UpdatePostService updatePostService;
     private final FindAllPostsService findAllPostsService;
     private final FindPostsBySubjectService findPostsBySubjectService;
+    private final FindUsersPostsService findUsersPostsService;
 
 
     @PostMapping
@@ -44,6 +44,14 @@ public class PostsController {
     @GetMapping("/{subject}")
     public ResponseEntity<PostListResponse> getPostsBySubject(@PathVariable String subject) throws Exception {
          return new  ResponseEntity<>(findPostsBySubjectService.execute(new StandardStringRequest(subject)), HttpStatus.FOUND);
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity<PostListResponse> getPostsByUser(Principal principal) throws Exception {
+
+        StandardStringRequest email = new StandardStringRequest(principal.getName());
+
+        return new ResponseEntity<>(findUsersPostsService.execute(email), HttpStatus.FOUND);
     }
 
 }
