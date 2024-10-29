@@ -9,9 +9,18 @@ import java.util.stream.Collectors;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
-   default List<Post> findBySubjectId(Long id){
-       return findAll().stream()
-               .filter(post -> post.getSubject().getSubjectId().equals(id))
-               .toList();
-   };
+    default List<Post> findBySubjectId(Long id) {
+        return findAll().stream()
+                .filter(post -> post.getSubject().getSubjectId().equals(id))
+                .toList();
+    }
+
+    ;
+
+    default List<Post> findByUserId(Integer id) {
+
+        return findAll().stream()
+                .filter(post -> post.getUser().getId().equals(id))
+                .toList();
+    }
 }

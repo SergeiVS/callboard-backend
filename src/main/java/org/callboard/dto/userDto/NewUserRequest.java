@@ -26,7 +26,7 @@ public class NewUserRequest extends Request {
     @StringFormatValidation(groups = {NameValidation.class})
     private String lastName;
     @NotBlank
-    @Email(regexp = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$")
+    @Email()
     private String email;
     @NotBlank
     @StringFormatValidation(groups = {PasswordValidation.class})

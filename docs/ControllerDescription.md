@@ -39,3 +39,4 @@ UsersController
 @PutMapping
 public ResponseEntity<UserDataResponse> updateUserData(@RequestBody UserUpdateRequest request);
 
+$2a$12$/K2D/c.loJ74Ql9ESH6I2eQHZzMJf7l2egmYV3DfkqbXNrPlpY7ne

@@ -34,4 +34,8 @@ public class PostRepositoryService {
                 .orElseThrow(() -> new NotFoundException(STR."Subject: \{subject} not found"));
         return postRepository.findBySubjectId(subjectForSearch.getSubjectId());
     }
+
+    public List<Post> findByUserId(Integer userId) {
+        return postRepository.findByUserId(userId);
+    }
 }

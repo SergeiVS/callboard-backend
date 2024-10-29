@@ -14,8 +14,10 @@ public interface UserMappers {
     UserResponse userToUserResponse(User user);
 
     UserResponseForPost usetToUserResponseForPost(User user);
-//
+
+    //
     @Mapping(target = "roles", ignore = true)
     @Mapping(target = "phoneNumber", ignore = true)
+    @Mapping(target = "password", ignore = true)
     User newUserResponseToUser(NewUserRequest request);
 }
