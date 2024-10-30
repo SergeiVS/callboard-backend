@@ -2,6 +2,7 @@ package org.callboard.controllers.exceptionHandlers;
 
 import jakarta.security.auth.message.AuthException;
 import jakarta.validation.ConstraintViolationException;
+import lombok.extern.slf4j.Slf4j;
 import org.callboard.dto.errorDto.ErrorResponseDto;
 import org.callboard.exceptions.AlreadyExistException;
 import org.callboard.exceptions.IllegalRequestParamException;
@@ -12,7 +13,10 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.Arrays;
+
 @ControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
@@ -58,6 +62,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponseDto> handleRuntimeException(RuntimeException e) {
+        log.error(Arrays.toString(e.getStackTrace()), e);
         return buildResponse(e.getMessage(), "RuntimeException", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
