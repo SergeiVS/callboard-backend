@@ -11,6 +11,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserRepositoryService {
+
     private final UserRepository userRepository;
 
     public User saveUser(User user) {
