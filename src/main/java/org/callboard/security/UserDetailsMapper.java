@@ -24,7 +24,7 @@ public class UserDetailsMapper implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
         return user.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority(STR."ROLE_\{role.getRoleName()}"))
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRoleName()))
                 .toList();
     }
 

@@ -25,13 +25,17 @@ public class PostRepositoryService {
         return postRepository.findById(id);
     }
 
-    public List<Post> findAll() {return postRepository.findAll();}
+    public List<Post> findAll() {
+        return postRepository.findAll();
+    }
 
-    public void delete(Post post) {postRepository.delete(post);}
+    public void delete(Post post) {
+        postRepository.delete(post);
+    }
 
     public List<Post> findBySubject(String subject) {
         Subject subjectForSearch = subjectRepoService.findByName(subject)
-                .orElseThrow(() -> new NotFoundException(STR."Subject: \{subject} not found"));
+                .orElseThrow(() -> new NotFoundException("Subject: " + subject + " not found"));
         return postRepository.findBySubjectId(subjectForSearch.getSubjectId());
     }
 

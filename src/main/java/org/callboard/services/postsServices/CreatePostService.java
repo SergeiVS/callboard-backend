@@ -34,7 +34,7 @@ public class CreatePostService implements StandardServiceInterface<PostCreateSuc
 
         Post savedPost = postRepoService.save(postForSave);
 
-        return new PostCreateSuccessResponse(savedPost.getPostId(), STR."Your post is successfully added under id: \{savedPost.getPostId()}");
+        return new PostCreateSuccessResponse(savedPost.getPostId(), "Your post is successfully added under id: " + savedPost.getPostId());
     }
 
 
@@ -44,12 +44,12 @@ public class CreatePostService implements StandardServiceInterface<PostCreateSuc
         Post postForSave = postMappers.toPost(request);
 
         Subject subject = subjectRepoService.findByName(request.getSubject())
-                .orElseThrow(() -> new NotFoundException(STR."Subject: \{request.getSubject()} not found"));
+                .orElseThrow(() -> new NotFoundException("Subject: " + request.getSubject() + " not found"));
 
         postForSave.setSubject(subject);
 
         User userForSave = userRepoService.findUserById(request.getUserId())
-                .orElseThrow(() -> new NotFoundException(STR."User with id: \{request.getUserId()} not found"));
+                .orElseThrow(() -> new NotFoundException("User with id: " + request.getUserId() + " not found"));
 
         postForSave.setUser(userForSave);
         return postForSave;

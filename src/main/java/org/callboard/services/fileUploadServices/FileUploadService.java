@@ -35,7 +35,7 @@ public class FileUploadService {
         } else {
             throw new IllegalArgumentException("Invalid file name");
         }
-        String newFileName = STR."\{UUID.randomUUID()}.\{extension}";
+        String newFileName = UUID.randomUUID() + "." + extension;
         InputStream inputStream = file.getInputStream();
 
         ObjectMetadata metadata = new ObjectMetadata();
@@ -53,7 +53,7 @@ public class FileUploadService {
         request.getRequestClientOptions().setReadLimit(2000000);
         s3.putObject(request);
 
-        String link = s3.getUrl("demo-shop-files", STR."help-app-images\{fileName}").toString();
+        String link = s3.getUrl("demo-shop-files", "help-app-images." + fileName).toString();
 
         FileInfo fileInfo = FileInfo.builder()
                 .link(link)
