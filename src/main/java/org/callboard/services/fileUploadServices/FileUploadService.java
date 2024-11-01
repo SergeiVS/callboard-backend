@@ -43,17 +43,16 @@ public class FileUploadService {
         metadata.setContentType(file.getContentType());
 
         PutObjectRequest request = new PutObjectRequest(
-                "demo-shop-files.help-app-images",
+                "demo-shop-files",
                 newFileName,
                 inputStream,
                 metadata
-        )
-                .withCannedAcl(CannedAccessControlList.PublicRead);
+        );
+        request.setCannedAcl(CannedAccessControlList.PublicRead);
 
-        request.getRequestClientOptions().setReadLimit(2000000);
         s3.putObject(request);
 
-        String link = s3.getUrl("demo-shop-files.help-app-images", "help-app-images/" + newFileName).toString();
+        String link = s3.getUrl("demo-shop-files", "help-app-images/" + newFileName).toString();
 
         FileInfo fileInfo = FileInfo.builder()
                 .link(link)
