@@ -27,7 +27,7 @@ public class FileUploadService {
     private final AmazonS3 s3;
     private final FileInfoRepository fileInfoRepository;
 
-    public StandardResponse uploadFile(MultipartFile file) throws IOException {
+    public String uploadFile(MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
         String extension = "";
         if (fileName != null && !fileName.isEmpty()) {
@@ -58,7 +58,7 @@ public class FileUploadService {
                 .link(link)
                 .build();
         fileInfoRepository.save(fileInfo);
-        return new StandardResponse(link);
+        return link;
     }
 
 

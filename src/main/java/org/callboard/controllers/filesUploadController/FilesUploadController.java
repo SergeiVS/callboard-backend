@@ -25,6 +25,6 @@ public class FilesUploadController {
     @PostMapping
     public ResponseEntity<StandardResponse> uploadFile(@RequestParam("files") MultipartFile file) throws IOException {
         log.info("File name: "+ file.getOriginalFilename());
-        return ResponseEntity.ok(fileUploadService.uploadFile(file));
+        return ResponseEntity.ok(new StandardResponse(fileUploadService.uploadFile(file)));
     }
 }

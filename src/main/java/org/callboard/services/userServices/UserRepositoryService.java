@@ -6,6 +6,7 @@ import org.callboard.exceptions.NotFoundException;
 import org.callboard.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,6 +23,10 @@ public class UserRepositoryService {
         return userRepository.findByEmail(email);
     }
 
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
+    }
+
     public Optional<User> findUserById(Integer id) {
         return userRepository.findById(id);
     }
@@ -32,8 +37,15 @@ public class UserRepositoryService {
 
     public Integer findUserIdByEmail(String email) {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new NotFoundException("User: " + email + "not found"));
+                .orElseThrow(() -> new NotFoundException("User: " + email + " not found"));
         return user.getId();
     }
 
+    public void deleteUserById(Integer id) {
+      try {
+          userRepository.deleteById(id);
+      }catch (Exception e) {
+          throw new RuntimeException((e.getMessage()));
+      }
+    }
 }

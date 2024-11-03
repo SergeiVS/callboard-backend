@@ -33,6 +33,14 @@ public class PostRepositoryService {
         postRepository.delete(post);
     }
 
+    public void deleteByUserId(Integer id) {
+        try {
+            postRepository.deleteByUserId(id);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
     public List<Post> findBySubject(String subject) {
         Subject subjectForSearch = subjectRepoService.findByName(subject)
                 .orElseThrow(() -> new NotFoundException("Subject: " + subject + " not found"));

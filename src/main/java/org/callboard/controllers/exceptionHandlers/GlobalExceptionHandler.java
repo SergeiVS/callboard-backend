@@ -13,6 +13,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 @ControllerAdvice
@@ -66,6 +67,11 @@ public class GlobalExceptionHandler {
         return buildResponse(e.getMessage(), "RuntimeException", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler(IOException.class)
+    public ResponseEntity<ErrorResponseDto> handleIOException(RuntimeException e) {
+        log.error(Arrays.toString(e.getStackTrace()), e);
+        return buildResponse(e.getMessage(), "IOException", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     private ResponseEntity<ErrorResponseDto> buildResponse(String message, String errorType, HttpStatus status) {
         ErrorResponseDto response = ErrorResponseDto.builder()
@@ -74,6 +80,7 @@ public class GlobalExceptionHandler {
                 .build();
         return new ResponseEntity<>(response, status);
     }
+
 
 }
 

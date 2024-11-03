@@ -8,8 +8,11 @@ import org.callboard.dto.postDto.*;
 import org.callboard.services.postsServices.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.security.Principal;
 
 @Slf4j
@@ -25,25 +28,26 @@ public class PostsController {
     private final FindUsersPostsService findUsersPostsService;
 
 
-    @PostMapping
-    public ResponseEntity<PostCreateSuccessResponse> createNewPost(@RequestBody NewPostRequest request) {
-        log.info(request.toString());
-        return new  ResponseEntity<>(createPostService.execute(request), HttpStatus.CREATED);
+    @PostMapping(consumes = {"multipart/form-data"})
+    public ResponseEntity<PostCreateSuccessResponse> createNewPost(
+           @ModelAttribute @RequestBody NewPostRequest request) throws IOException {
+
+        return new ResponseEntity<>(createPostService.execute(request), HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
     public ResponseEntity<PostResponse> updatePost(@Valid @RequestBody UpdatePostRequest request) {
-        return new ResponseEntity<>( updatePostService.execute(request), HttpStatus.OK);
+        return new ResponseEntity<>(updatePostService.execute(request), HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity<PostListResponse> getAllPosts() {
-        return new  ResponseEntity<>(findAllPostsService.findAllPosts(), HttpStatus.FOUND);
+        return new ResponseEntity<>(findAllPostsService.findAllPosts(), HttpStatus.FOUND);
     }
 
     @GetMapping("/{subject}")
     public ResponseEntity<PostListResponse> getPostsBySubject(@PathVariable String subject) throws Exception {
-         return new  ResponseEntity<>(findPostsBySubjectService.execute(new StandardStringRequest(subject)), HttpStatus.FOUND);
+        return new ResponseEntity<>(findPostsBySubjectService.execute(new StandardStringRequest(subject)), HttpStatus.FOUND);
     }
 
     @GetMapping("/user")
