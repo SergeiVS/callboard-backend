@@ -40,7 +40,7 @@ public class UpdatePostService implements StandardServiceInterface<PostResponse,
 
     private @NotNull Post savePost(UpdatePostRequest request) {
         Post postForSave = postRepoService.findById(request.getPostId())
-                .orElseThrow(() -> new NotFoundException(STR."Post with id: \{request.getPostId()} not found"));
+                .orElseThrow(() -> new NotFoundException("Post with id: " + request.getPostId() + " not found"));
         setNewValuesForPost(request, postForSave);
         return postForSave;
     }

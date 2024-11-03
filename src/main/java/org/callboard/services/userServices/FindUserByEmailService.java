@@ -27,7 +27,7 @@ public class FindUserByEmailService implements StandardServiceInterface<UserResp
     @Override
     public UserResponse execute(StandardStringRequest request) throws AuthException {
         User user = userRepositoryService.findUserByEmail(request.getParameter())
-                .orElseThrow(() -> new NotFoundException(STR."User: \{request.getParameter()} not found"));
+                .orElseThrow(() -> new NotFoundException("User: " + request.getParameter() + " not found"));
         UserResponse userResponse = userMappers.userToUserResponse(user);
         userResponse.setRoles(UserServiceUtils.getUserRoles(user));
         return userResponse;

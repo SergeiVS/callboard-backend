@@ -19,12 +19,12 @@ public class UpdateUserService implements StandardServiceInterface<StandardRespo
 
     @Override
     @Transactional
-    public StandardResponse execute(UpdateUserRequest request)throws RuntimeException, AuthException {
+    public StandardResponse execute(UpdateUserRequest request) throws RuntimeException, AuthException {
         User userForSave = getUserForSave(request);
         validateUserEmail(userForSave, request.getEmail());
         addNewFieldsToUser(userForSave, request);
         userRepoService.saveUser(userForSave);
-        return new StandardResponse(STR."User: \{userForSave.getEmail()} updated successfully");
+        return new StandardResponse("User: " + userForSave.getEmail() + " updated successfully");
     }
 
     private void addNewFieldsToUser(User userForSave, UpdateUserRequest request) {
@@ -44,13 +44,13 @@ public class UpdateUserService implements StandardServiceInterface<StandardRespo
 
     private User getUserForSave(UpdateUserRequest request) {
         return userRepoService.findUserById(request.getUserId()).orElseThrow(() -> {
-            return new NotFoundException(STR."User: \{request.getUserId()} not found");
+            return new NotFoundException("User: " + request.getUserId() + " not found");
         });
     }
 
     private void validateUserEmail(User user, String email) {
         if (!user.getEmail().equals(email.toLowerCase()) && userRepoService.existsUserByEmail(email)) {
-            throw new IllegalArgumentException(STR."email: \{email} already exists");
+            throw new IllegalArgumentException("email: " + email + " already exists");
         }
     }
 }

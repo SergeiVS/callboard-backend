@@ -5,6 +5,9 @@ import lombok.*;
 import org.callboard.dto.Request;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.nio.channels.MulticastChannel;
 
 @Component
 @Data
@@ -26,5 +29,5 @@ public class NewPostRequest extends Request {
     @NotBlank
     private String description;
 
-    private String photoLink;
+    private MultipartFile image;
 }

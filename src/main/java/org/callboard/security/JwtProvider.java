@@ -68,7 +68,7 @@ public class JwtProvider {
 
 
     private Key getSecretKey() {
-        String jwtSecret = "HUHerfjewhewu47585903JOIiIJOU4QOoiu8h73";
+        String jwtSecret = System.getenv("DATABASE_JWT_SECRET");
         return new SecretKeySpec(jwtSecret.getBytes(), SignatureAlgorithm.HS256.getJcaName());
     }
 

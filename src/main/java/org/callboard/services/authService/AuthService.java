@@ -35,7 +35,7 @@ public class AuthService {
         String password = request.getPassword();
 
         User userForCheck = userRepositoryService.findUserByEmail(username)
-                .orElseThrow(() -> new NotFoundException(STR."User: \{username}not found"));
+                .orElseThrow(() -> new NotFoundException("User: " + username + " not found"));
 
 
         try {
@@ -44,15 +44,15 @@ public class AuthService {
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            log.info(STR."Request to create jwt token \{username}, \{password}");
+            log.info("Request to create jwt token " + username);
 
             String jwt = jwtProvider.generateJwtToken(authentication.getName());
 
             return new AuthResponse(jwt);
 
         } catch (Exception e) {
-            log.error(STR."Authentication failed for user: \{username}", e);
-            throw new AuthException(STR."Authentication failed for user: \{username}", e);
+            log.error("Authentication failed for user: " + username, e);
+            throw new AuthException("Authentication failed for user: " + username, e);
         }
 
     }

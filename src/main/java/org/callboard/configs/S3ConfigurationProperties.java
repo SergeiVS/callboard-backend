@@ -13,6 +13,4 @@ public class S3ConfigurationProperties {
     private String endpoint;
     private String region;
     private String jwtSecret;
-    private String valut_access_key;
-    private String valut_secret_key;
 }

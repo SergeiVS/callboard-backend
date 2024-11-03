@@ -32,7 +32,7 @@ public class CreateUserService implements StandardServiceInterface<StandardRespo
         User savedUser = userRepoService.saveUser(userForSave);
         validateSavedUser(savedUser);
 
-        return new StandardResponse(STR."User: \{savedUser.getFirstName()} \{savedUser.getLastName()} created");
+        return new StandardResponse("User: " + savedUser.getFirstName() + savedUser.getLastName() + " created");
     }
 
     private static void validateSavedUser(User savedUser) {
@@ -52,7 +52,7 @@ public class CreateUserService implements StandardServiceInterface<StandardRespo
 
     private void checkUniqueEmail(NewUserRequest request) {
         if (userRepoService.existsUserByEmail(request.getEmail())) {
-            throw new AlreadyExistException(STR."User with email \{request.getEmail()} already exists");
+            throw new AlreadyExistException("User with email " + request.getEmail() + "already exists");
         }
     }
 
