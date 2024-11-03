@@ -21,7 +21,6 @@ public class UpdateUserService implements StandardServiceInterface<StandardRespo
     @Transactional
     public StandardResponse execute(UpdateUserRequest request) throws RuntimeException, AuthException {
         User userForSave = getUserForSave(request);
-        validateUserEmail(userForSave, request.getEmail());
         addNewFieldsToUser(userForSave, request);
         userRepoService.saveUser(userForSave);
         return new StandardResponse("User: " + userForSave.getEmail() + " updated successfully");
@@ -30,7 +29,6 @@ public class UpdateUserService implements StandardServiceInterface<StandardRespo
     private void addNewFieldsToUser(User userForSave, UpdateUserRequest request) {
         userForSave.setFirstName(request.getFirstName());
         userForSave.setLastName(request.getLastName());
-        userForSave.setEmail(request.getEmail());
         setNewPhoneNumberToUser(userForSave, request);
     }
 
@@ -48,9 +46,5 @@ public class UpdateUserService implements StandardServiceInterface<StandardRespo
         });
     }
 
-    private void validateUserEmail(User user, String email) {
-        if (!user.getEmail().equals(email.toLowerCase()) && userRepoService.existsUserByEmail(email)) {
-            throw new IllegalArgumentException("email: " + email + " already exists");
-        }
-    }
+
 }

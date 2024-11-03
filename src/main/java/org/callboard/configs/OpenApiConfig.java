@@ -38,19 +38,19 @@ public class OpenApiConfig {
     }
 
     @Bean
-    public OpenAPI openAPI() {
+    public OpenAPI customOpenAPI() {
         return new OpenAPI()
-                .info( new Info()
-                                .title("Callboard project")
-                                .version("v1")
-                                .description("Used APIs description"))
+                .info(new Info()
+                        .title("Help app API")
+                        .version("v1")
+                        .description("My API description"))
                 .components(new Components()
                         .addSecuritySchemes("Bearer",
                                 new SecurityScheme()
                                         .type(SecurityScheme.Type.HTTP)
-                                        .scheme("Bearer")
+                                        .scheme("bearer")
                                         .bearerFormat("JWT")
-                                ))
+                        ))
                 .addSecurityItem(new SecurityRequirement().addList("Bearer"));
     }
 }

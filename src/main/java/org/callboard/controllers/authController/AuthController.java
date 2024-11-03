@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.callboard.controllers.api.AuthControllerInterface;
 import org.callboard.dto.StandardResponse;
 import org.callboard.dto.StandardStringRequest;
 import org.callboard.dto.authDto.AuthResponse;
@@ -23,7 +24,7 @@ import java.security.Principal;
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 @Slf4j
-public class AuthController {
+public class AuthController implements AuthControllerInterface {
 
     private final AuthService authService;
     private final CreateUserService createUserService;
@@ -36,7 +37,7 @@ public class AuthController {
     }
 
     @PostMapping("/signing")
-    public ResponseEntity<StandardResponse> registerNewUser(@Valid @RequestBody NewUserRequest request) throws AuthException {
+    public ResponseEntity<StandardResponse> registerNewUser(@Valid @RequestBody NewUserRequest request) {
         return ResponseEntity.ok(createUserService.execute(request));
     }
 

@@ -2,6 +2,7 @@ package org.callboard.controllers.filesUploadController;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.callboard.controllers.api.FilesUploadControllerInterface;
 import org.callboard.dto.StandardResponse;
 import org.callboard.services.fileUploadServices.FileUploadService;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ import java.io.IOException;
 @RequestMapping("api/files")
 @RequiredArgsConstructor
 @Slf4j
-public class FilesUploadController {
+public class FilesUploadController implements FilesUploadControllerInterface {
 
     private final FileUploadService fileUploadService;
 
