@@ -29,8 +29,12 @@ public class PostRepositoryService {
         return postRepository.findAll();
     }
 
-    public void delete(Post post) {
-        postRepository.delete(post);
+    public void deleteBiId(Long id) {
+        try {
+            postRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     public void deleteByUserId(Integer id) {
