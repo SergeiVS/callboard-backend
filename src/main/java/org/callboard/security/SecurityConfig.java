@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -26,8 +27,10 @@ import java.util.List;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final CustomUserDetailsService userDetailsService;
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -55,17 +58,17 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**", "/swagger-resources/configuration/ui", "/swagger-ui.html").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/users*").hasRole( "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/users*").hasRole("ADMIN")
                         .requestMatchers("/api/posts/user").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/api/users/**").hasAnyRole("ADMIN", "USER")
                         .requestMatchers("/api/auth/me").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/api/files").hasRole( "ADMIN")
+                        .requestMatchers("/api/files").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/posts/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/posts/**").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers(HttpMethod.DELETE, "/api/users/**").hasRole( "ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/users/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/posts/**").hasAnyRole("ADMIN", "USER")
 
 
@@ -93,9 +96,5 @@ public class SecurityConfig {
         return new ProviderManager(authenticationProvider());
     }
 
-//    @Bean
-//    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-//        return configuration.getAuthenticationManager();
-//    }
 
 }
