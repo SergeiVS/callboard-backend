@@ -44,12 +44,12 @@ public class PostsController {
 
     @GetMapping
     public ResponseEntity<PostListResponse> getAllPosts() {
-        return new ResponseEntity<>(findAllPostsService.findAllPosts(), HttpStatus.FOUND);
+        return new ResponseEntity<>(findAllPostsService.findAllPosts(), HttpStatus.OK);
     }
 
     @GetMapping("/{subject}")
     public ResponseEntity<PostListResponse> getPostsBySubject(@PathVariable String subject) throws Exception {
-        return new ResponseEntity<>(findPostsBySubjectService.execute(new StandardStringRequest(subject)), HttpStatus.FOUND);
+        return new ResponseEntity<>(findPostsBySubjectService.execute(new StandardStringRequest(subject)), HttpStatus.OK);
     }
 
     @GetMapping("/user")
@@ -57,7 +57,7 @@ public class PostsController {
 
         StandardStringRequest email = new StandardStringRequest(principal.getName());
 
-        return new ResponseEntity<>(findUsersPostsService.execute(email), HttpStatus.FOUND);
+        return new ResponseEntity<>(findUsersPostsService.execute(email), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
