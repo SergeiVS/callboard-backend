@@ -52,7 +52,7 @@ public class FileUploadService {
 
         s3.putObject(request);
 
-        String link = s3.getUrl("demo-shop-files", "help-app-images/" + newFileName).toString();
+        String link = s3.getUrl("demo-shop-files", newFileName).toString();
 
         FileInfo fileInfo = FileInfo.builder()
                 .link(link)
