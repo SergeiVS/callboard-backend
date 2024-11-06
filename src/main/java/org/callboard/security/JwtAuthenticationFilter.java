@@ -71,9 +71,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
-        }else{
-            throw new AuhtException("Invalid JWT, User Unauthorized ");
         }
+        return null;
     }
 }
 
