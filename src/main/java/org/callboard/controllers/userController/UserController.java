@@ -28,7 +28,7 @@ public class UserController {
     private final DeleteUserService deleteUserService;
 
     @GetMapping
-    @PreAuthorize(value = "ADMIN")
+
     public ResponseEntity<UserResponseList> getAllUser(Principal principal) throws Exception {
         StandardStringRequest request = new StandardStringRequest(principal.getName());
 

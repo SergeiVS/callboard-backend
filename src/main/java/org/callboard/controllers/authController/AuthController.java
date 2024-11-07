@@ -1,5 +1,6 @@
 package org.callboard.controllers.authController;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.security.auth.message.AuthException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -40,7 +41,7 @@ public class AuthController implements AuthControllerInterface {
     public ResponseEntity<StandardResponse> registerNewUser(@Valid @RequestBody NewUserRequest request) {
         return ResponseEntity.ok(createUserService.execute(request));
     }
-
+    @RolesAllowed({"USER", "ADMIN"})
     @GetMapping("/me")
     public ResponseEntity<UserResponse> getUserData(@NotNull(message = "User is not authorized") Principal principal) throws AuthException {
 
