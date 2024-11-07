@@ -1,5 +1,6 @@
 package org.callboard.controllers.filesUploadController;
 
+import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.callboard.controllers.api.FilesUploadControllerInterface;
@@ -19,7 +20,7 @@ import java.io.IOException;
 public class FilesUploadController implements FilesUploadControllerInterface {
 
     private final FileUploadService fileUploadService;
-
+    @RolesAllowed("ADMIN")
     @PostMapping
     public ResponseEntity<StandardResponse> uploadFile(@RequestParam("files") MultipartFile file) throws IOException {
         log.info("File name: "+ file.getOriginalFilename());
