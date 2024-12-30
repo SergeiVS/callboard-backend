@@ -46,7 +46,7 @@ public class CreatePostService implements StandardServiceInterface <PostCreateSu
     private @NotNull Post getPostForSave(NewPostRequest request) throws IOException {
 
         Post post = new Post();
-        post.setSubject(extractSubjectFromRequest(request));
+                                    post.setSubject(extractSubjectFromRequest(request));
         setPhotolinkToPost(request.getImage(), post);
         setUserToPost(request, post);
         post.setHeader(request.getHeader());
