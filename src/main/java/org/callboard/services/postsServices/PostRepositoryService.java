@@ -30,19 +30,13 @@ public class PostRepositoryService {
     }
 
     public void deleteBiId(Long id) {
-        try {
-            postRepository.deleteById(id);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
+
+        postRepository.deleteById(id);
     }
 
     public void deleteByUserId(Integer id) {
-        try {
-            postRepository.deleteByUserId(id);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
+
+        postRepository.deleteByUserId(id);
     }
 
     public List<Post> findBySubject(String subject) {

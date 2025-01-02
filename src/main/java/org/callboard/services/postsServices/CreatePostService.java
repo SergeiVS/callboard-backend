@@ -9,7 +9,6 @@ import org.callboard.entities.Post;
 import org.callboard.entities.Subject;
 import org.callboard.entities.User;
 import org.callboard.exceptions.NotFoundException;
-import org.callboard.mappers.PostMappers;
 import org.callboard.services.StandardServiceInterface;
 import org.callboard.services.fileUploadServices.FileUploadService;
 import org.callboard.services.subjectService.SubjectRepositoryService;
@@ -23,7 +22,7 @@ import java.io.IOException;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class CreatePostService implements StandardServiceInterface <PostCreateSuccessResponse, NewPostRequest>{
+public class CreatePostService implements StandardServiceInterface<PostCreateSuccessResponse, NewPostRequest> {
 
     private final PostRepositoryService postRepoService;
     private final FileUploadService fileUploadService;
@@ -34,7 +33,6 @@ public class CreatePostService implements StandardServiceInterface <PostCreateSu
     public PostCreateSuccessResponse execute(NewPostRequest request) throws IOException {
 
         Post postForSave = getPostForSave(request);
-
         Post savedPost = postRepoService.save(postForSave);
 
         return new PostCreateSuccessResponse(
@@ -46,29 +44,29 @@ public class CreatePostService implements StandardServiceInterface <PostCreateSu
     private @NotNull Post getPostForSave(NewPostRequest request) throws IOException {
 
         Post post = new Post();
-                                    post.setSubject(extractSubjectFromRequest(request));
-        setPhotolinkToPost(request.getImage(), post);
-        setUserToPost(request, post);
         post.setHeader(request.getHeader());
         post.setDescription(request.getDescription());
-        return postRepoService.save(post);
+        post.setPhotoLink(getPhotoLinkToPost(request.getImage()));
+        post.setSubject(extractSubjectFromRequest(request));
+        post.setUser(setUserToPost(request));
+        return post;
     }
 
-    private void setUserToPost(NewPostRequest request, Post post) {
+    private User setUserToPost(NewPostRequest request) {
 
         User userForSave = userRepoService.findUserById(request.getUserId())
                 .orElseThrow(() -> new NotFoundException("User with id: " + request.getUserId() + " not found"));
 
-        post.setUser(userForSave);
+        return userForSave;
     }
 
-    private void setPhotolinkToPost(MultipartFile file, Post post) throws IOException {
+    private String getPhotoLinkToPost(MultipartFile file) throws IOException {
 
         if (file != null) {
             String photoLink = fileUploadService.uploadFile(file);
-            post.setPhotoLink(photoLink);
+            return photoLink;
         } else {
-            post.setPhotoLink("N/A");
+            return "N/A";
         }
     }
 
