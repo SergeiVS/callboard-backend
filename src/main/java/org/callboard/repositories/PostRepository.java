@@ -6,21 +6,18 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
-    default List<Post> findBySubjectId(Long id) {
-        return findAll().stream()
-                .filter(post -> post.getSubject().getSubjectId().equals(id))
-                .toList();
-    }
-   void deleteByUserId(Integer userId);
 
-    default List<Post> findByUserId(Integer id) {
+    @Query("SELECT p FROM Post p WHERE p.subject.subjectId=:id")
+    List<Post> findBySubjectId(Long id);
 
-        return findAll().stream()
-                .filter(post -> post.getUser().getId().equals(id))
-                .toList();
-    }
+    void deleteByUserId(Integer userId);
+
+    @Query("SELECT p FROM Post p WHERE p.user.id=:id")
+    List<Post> findByUserId(Integer id);
+
+    @Query("SELECT p FROM Post p WHERE p.user.email=:email")
+    List<Post> findByUserEmail(String email);
 }

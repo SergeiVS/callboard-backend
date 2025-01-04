@@ -53,26 +53,21 @@ public class CreatePostService implements StandardServiceInterface<PostCreateSuc
     }
 
     private User setUserToPost(NewPostRequest request) {
-
-        User userForSave = userRepoService.findUserById(request.getUserId())
+        return userRepoService.findUserById(request.getUserId())
                 .orElseThrow(() -> new NotFoundException("User with id: " + request.getUserId() + " not found"));
-
-        return userForSave;
     }
 
     private String getPhotoLinkToPost(MultipartFile file) throws IOException {
 
         if (file != null) {
-            String photoLink = fileUploadService.uploadFile(file);
-            return photoLink;
+            return fileUploadService.uploadFile(file);
         } else {
             return "N/A";
         }
     }
 
     private Subject extractSubjectFromRequest(NewPostRequest request) {
-        Subject subject = subjectRepoService.findByName(request.getSubject())
+        return subjectRepoService.findByName(request.getSubject())
                 .orElseThrow(() -> new NotFoundException("Subject: " + request.getSubject() + " not found"));
-        return subject;
     }
 }

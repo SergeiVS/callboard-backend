@@ -33,7 +33,7 @@ public class AuthController implements AuthControllerInterface {
 
     @PostMapping
     public ResponseEntity<AuthResponse> authenticateUser(@Valid @RequestBody AuthenticationRequest request) throws AuthException {
-        log.info("Authenticating user: {}", request);
+
         return ResponseEntity.ok(authService.authenticateUser(request));
     }
 

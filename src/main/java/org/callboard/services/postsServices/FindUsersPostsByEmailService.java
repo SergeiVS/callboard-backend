@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class FindUsersPostsService implements StandardServiceInterface<PostListResponse, StandardStringRequest> {
+public class FindUsersPostsByEmailService implements StandardServiceInterface<PostListResponse, StandardStringRequest> {
 
     private final PostRepositoryService postRepositoryService;
     private final UserRepositoryService userRepositoryService;
@@ -19,8 +19,9 @@ public class FindUsersPostsService implements StandardServiceInterface<PostListR
 
     @Override
     public PostListResponse execute(StandardStringRequest request) throws Exception {
-        Integer userId = userRepositoryService.findUserIdByEmail(request.getParameter());
+
+        String email = request.getParameter();
         return new PostListResponse(
-                mapper.mapPostsListToPostResponseList(postRepositoryService.findByUserId(userId)));
+                mapper.mapPostsListToPostResponseList(postRepositoryService.findByUserEmail(email)));
     }
 }

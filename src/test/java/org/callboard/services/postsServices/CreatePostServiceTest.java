@@ -15,6 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -37,6 +38,9 @@ class CreatePostServiceTest {
 
     @Mock
     UserRepositoryService userRepositoryService;
+
+    @Mock
+    MultipartFile file;
 
     @InjectMocks
     CreatePostService createPostService;
@@ -78,12 +82,20 @@ class CreatePostServiceTest {
     }
 
     @Test
-    void shouldCreatePost() throws IOException {
-        when(subjectRepoService.findByName("subject")).thenReturn(Optional.ofNullable(subject));
-        when(userRepositoryService.findUserById(1)).thenReturn(Optional.of(user));
-        when(postRepoService.save(argThat(post -> (post.getHeader().equals(postForSave.getHeader()) &&
-                (post.getDescription().equals(postForSave.getDescription()))))))
-                .thenReturn(postSaved);
+    void shouldCreatePostWithoutImage() throws IOException {
+        getMockedValues();
+        PostCreateSuccessResponse result = createPostService.execute(request);
+        PostCreateSuccessResponse response = new PostCreateSuccessResponse(1L, "Your post is successfully added under id: 1");
+        assertEquals(response, result);
+    }
+
+    @Test
+    void shouldCreatePostWithImage() throws IOException {
+        String photoLink = "Link";
+        request.setImage(file);
+        getMockedValues();
+        when(fileUploadService.uploadFile(file)).thenReturn(photoLink);
+        postSaved.setPhotoLink(photoLink);
 
         PostCreateSuccessResponse result = createPostService.execute(request);
         PostCreateSuccessResponse response = new PostCreateSuccessResponse(1L, "Your post is successfully added under id: 1");
@@ -93,5 +105,13 @@ class CreatePostServiceTest {
     @Test
     void shouldNotCreatePostSubjectNotExist() throws IOException {
         assertThrows(NotFoundException.class, () -> createPostService.execute(request), "Subject: subject not found");
+    }
+
+    private void getMockedValues(){
+        when(subjectRepoService.findByName("subject")).thenReturn(Optional.ofNullable(subject));
+        when(userRepositoryService.findUserById(1)).thenReturn(Optional.of(user));
+        when(postRepoService.save(argThat(post -> (post.getHeader().equals(postForSave.getHeader()) &&
+                (post.getDescription().equals(postForSave.getDescription()))))))
+                .thenReturn(postSaved);
     }
 }

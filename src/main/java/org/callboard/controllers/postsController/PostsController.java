@@ -26,15 +26,14 @@ public class PostsController {
     private final UpdatePostService updatePostService;
     private final FindAllPostsService findAllPostsService;
     private final FindPostsBySubjectService findPostsBySubjectService;
-    private final FindUsersPostsService findUsersPostsService;
+    private final FindUsersPostsByEmailService findUsersPostsByEmailService;
     private final DeletePostByIdService deletePostByIdService;
     private final DeletePostsByUserId deletePostsByUserIdService;
 
     @RolesAllowed({"USER", "ADMIN"})
-    @PostMapping(consumes = {"multipart/form-data"})
+    @PostMapping(consumes = {"multipart/form-data", "application/json"})
     public ResponseEntity<PostCreateSuccessResponse> createNewPost(
-            @ModelAttribute @RequestBody NewPostRequest request) throws IOException {
-
+           @Valid @ModelAttribute @RequestBody NewPostRequest request) throws IOException {
         return new ResponseEntity<>(createPostService.execute(request), HttpStatus.CREATED);
     }
 
@@ -53,14 +52,15 @@ public class PostsController {
     public ResponseEntity<PostListResponse> getPostsBySubject(@PathVariable String subject) throws Exception {
         return new ResponseEntity<>(findPostsBySubjectService.execute(new StandardStringRequest(subject)), HttpStatus.OK);
     }
+
     @RolesAllowed({"USER", "ADMIN"})
     @GetMapping("/user")
     public ResponseEntity<PostListResponse> getPostsByUser(Principal principal) throws Exception {
 
         StandardStringRequest email = new StandardStringRequest(principal.getName());
-
-        return new ResponseEntity<>(findUsersPostsService.execute(email), HttpStatus.OK);
+        return new ResponseEntity<>(findUsersPostsByEmailService.execute(email), HttpStatus.OK);
     }
+
     @RolesAllowed({"USER", "ADMIN"})
     @DeleteMapping("/{id}")
     public ResponseEntity<StandardResponse> deletePostById(@PathVariable Integer id) throws Exception {
@@ -68,7 +68,8 @@ public class PostsController {
         StandardResponse response = deletePostByIdService.execute(request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-    @RolesAllowed( "ADMIN")
+
+    @RolesAllowed("ADMIN")
     @DeleteMapping("/user/{id}")
     public ResponseEntity<StandardResponse> deletePostByUserId(@PathVariable Integer id) throws Exception {
         StandardIntRequest request = new StandardIntRequest(id);

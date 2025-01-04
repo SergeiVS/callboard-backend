@@ -45,6 +45,10 @@ public class PostRepositoryService {
         return postRepository.findBySubjectId(subjectForSearch.getSubjectId());
     }
 
+    public List<Post> findByUserEmail(String email) {
+        return postRepository.findByUserEmail(email);
+    }
+
     public List<Post> findByUserId(Integer userId) {
         return postRepository.findByUserId(userId);
     }
