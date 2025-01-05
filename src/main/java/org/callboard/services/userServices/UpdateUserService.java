@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.callboard.dto.StandardResponse;
 import org.callboard.dto.userDto.UpdateUserRequest;
 import org.callboard.entities.User;
-import org.callboard.exceptions.NotFoundException;
 import org.callboard.services.StandardServiceInterface;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +22,7 @@ public class UpdateUserService implements StandardServiceInterface<StandardRespo
         User userForSave = getUserForSave(request);
         addNewFieldsToUser(userForSave, request);
         userRepoService.saveUser(userForSave);
-        return new StandardResponse("User: " + userForSave.getEmail() + " updated successfully");
+        return new StandardResponse(STR."User: \{userForSave.getEmail()} updated successfully");
     }
 
     private void addNewFieldsToUser(User userForSave, UpdateUserRequest request) {
@@ -32,10 +31,12 @@ public class UpdateUserService implements StandardServiceInterface<StandardRespo
         setNewPhoneNumberToUser(userForSave, request);
     }
 
-    private static void setNewPhoneNumberToUser(User userForSave, UpdateUserRequest request) {
+    private void setNewPhoneNumberToUser(User userForSave, UpdateUserRequest request) {
         if (request.getPhoneNumber() == null || request.getPhoneNumber().isEmpty()) {
             userForSave.setPhoneNumber("N/A");
-        } else {
+        } else if (request.getPhoneNumber().length() > 11) {
+            throw new IllegalArgumentException("Phone number could not be longer as 11 digits");
+        } else if (!request.getPhoneNumber().equals(userForSave.getPhoneNumber())) {
             userForSave.setPhoneNumber(request.getPhoneNumber());
         }
     }
@@ -43,6 +44,5 @@ public class UpdateUserService implements StandardServiceInterface<StandardRespo
     private User getUserForSave(UpdateUserRequest request) {
         return userRepoService.findUserById(request.getUserId());
     }
-
 
 }
