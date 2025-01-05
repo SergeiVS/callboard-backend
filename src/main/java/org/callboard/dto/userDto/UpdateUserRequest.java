@@ -28,9 +28,6 @@ public class UpdateUserRequest extends Request {
     @NotBlank(message = "User lastname could not be empty")
     @StringFormatValidation(groups = {NameValidation.class})
     private String lastName;
-    @NotBlank(message = "User email could not be empty")
-    @Email(message = "The data must be in email format")
-    private String email;
 
     private String phoneNumber;
 }

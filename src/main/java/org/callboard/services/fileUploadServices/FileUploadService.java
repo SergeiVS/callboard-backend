@@ -27,7 +27,7 @@ public class FileUploadService {
     private final AmazonS3 s3;
     private final FileInfoRepository fileInfoRepository;
 
-    public StandardResponse uploadFile(MultipartFile file) throws IOException {
+    public String uploadFile(MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
         String extension = "";
         if (fileName != null && !fileName.isEmpty()) {
@@ -35,7 +35,7 @@ public class FileUploadService {
         } else {
             throw new IllegalArgumentException("Invalid file name");
         }
-        String newFileName = STR."\{UUID.randomUUID()}.\{extension}";
+        String newFileName = UUID.randomUUID() + "." + extension;
         InputStream inputStream = file.getInputStream();
 
         ObjectMetadata metadata = new ObjectMetadata();
@@ -43,23 +43,22 @@ public class FileUploadService {
         metadata.setContentType(file.getContentType());
 
         PutObjectRequest request = new PutObjectRequest(
-                "images",
+                "demo-shop-files",
                 newFileName,
                 inputStream,
                 metadata
-        )
-                .withCannedAcl(CannedAccessControlList.PublicRead);
+        );
+        request.setCannedAcl(CannedAccessControlList.PublicRead);
 
-        request.getRequestClientOptions().setReadLimit(2000000);
         s3.putObject(request);
 
-        String link = s3.getUrl("images", "{fileName}").toString();
+        String link = s3.getUrl("demo-shop-files", "help-app-images/" + newFileName).toString();
 
         FileInfo fileInfo = FileInfo.builder()
                 .link(link)
                 .build();
         fileInfoRepository.save(fileInfo);
-        return new StandardResponse(link);
+        return link;
     }
 
 

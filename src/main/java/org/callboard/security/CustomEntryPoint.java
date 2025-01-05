@@ -11,14 +11,16 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+
 @Component
 public class CustomEntryPoint implements AuthenticationEntryPoint {
 
-private final ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = new ObjectMapper();
+
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         HttpStatus status = HttpStatus.UNAUTHORIZED;
-        String message = STR."User Unauthorized: \{authException.getMessage()}";
+        String message = "User Unauthorized: " + authException.getMessage();
 
         response.setStatus(status.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);

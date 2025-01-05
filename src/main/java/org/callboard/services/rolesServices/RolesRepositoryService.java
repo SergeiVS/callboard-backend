@@ -15,6 +15,6 @@ public class RolesRepositoryService {
 
     public Role getRoleByName(String roleName) {
         return roleRepository.findByRoleName(roleName)
-                .orElseThrow(() -> new NotFoundException(STR."Role: \{roleName} not found"));
+                .orElseThrow(() -> new NotFoundException("Role: " + roleName + " not found"));
     }
 }
