@@ -108,8 +108,8 @@ class CreatePostServiceTest {
     }
 
     private void getMockedValues(){
-        when(subjectRepoService.findByName("subject")).thenReturn(Optional.ofNullable(subject));
-        when(userRepositoryService.findUserById(1)).thenReturn(Optional.of(user));
+        when(subjectRepoService.findByName("subject")).thenReturn(subject);
+        when(userRepositoryService.findUserById(1)).thenReturn(user);
         when(postRepoService.save(argThat(post -> (post.getHeader().equals(postForSave.getHeader()) &&
                 (post.getDescription().equals(postForSave.getDescription()))))))
                 .thenReturn(postSaved);

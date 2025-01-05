@@ -40,8 +40,7 @@ public class PostRepositoryService {
     }
 
     public List<Post> findBySubject(String subject) {
-        Subject subjectForSearch = subjectRepoService.findByName(subject)
-                .orElseThrow(() -> new NotFoundException("Subject: " + subject + " not found"));
+        Subject subjectForSearch = subjectRepoService.findByName(subject);
         return postRepository.findBySubjectId(subjectForSearch.getSubjectId());
     }
 

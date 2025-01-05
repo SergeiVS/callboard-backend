@@ -8,7 +8,6 @@ import org.callboard.dto.postDto.PostCreateSuccessResponse;
 import org.callboard.entities.Post;
 import org.callboard.entities.Subject;
 import org.callboard.entities.User;
-import org.callboard.exceptions.NotFoundException;
 import org.callboard.services.StandardServiceInterface;
 import org.callboard.services.fileUploadServices.FileUploadService;
 import org.callboard.services.subjectService.SubjectRepositoryService;
@@ -53,8 +52,7 @@ public class CreatePostService implements StandardServiceInterface<PostCreateSuc
     }
 
     private User setUserToPost(NewPostRequest request) {
-        return userRepoService.findUserById(request.getUserId())
-                .orElseThrow(() -> new NotFoundException("User with id: " + request.getUserId() + " not found"));
+        return userRepoService.findUserById(request.getUserId());
     }
 
     private String getPhotoLinkToPost(MultipartFile file) throws IOException {
@@ -67,7 +65,6 @@ public class CreatePostService implements StandardServiceInterface<PostCreateSuc
     }
 
     private Subject extractSubjectFromRequest(NewPostRequest request) {
-        return subjectRepoService.findByName(request.getSubject())
-                .orElseThrow(() -> new NotFoundException("Subject: " + request.getSubject() + " not found"));
+        return subjectRepoService.findByName(request.getSubject());
     }
 }

@@ -41,9 +41,7 @@ public class UpdateUserService implements StandardServiceInterface<StandardRespo
     }
 
     private User getUserForSave(UpdateUserRequest request) {
-        return userRepoService.findUserById(request.getUserId()).orElseThrow(() -> {
-            return new NotFoundException("User: " + request.getUserId() + " not found");
-        });
+        return userRepoService.findUserById(request.getUserId());
     }
 
 

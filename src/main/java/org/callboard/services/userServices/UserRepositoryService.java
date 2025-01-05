@@ -27,8 +27,8 @@ public class UserRepositoryService {
         return userRepository.findAll();
     }
 
-    public Optional<User> findUserById(Integer id) {
-        return userRepository.findById(id);
+    public User findUserById(Integer id) {
+        return userRepository.findById(id).orElseThrow(() -> new NotFoundException("User: " + id + " not found"));
     }
 
     public boolean existsUserByEmail(String email) {
