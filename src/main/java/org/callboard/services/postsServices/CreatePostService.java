@@ -29,7 +29,7 @@ public class CreatePostService implements StandardServiceInterface<PostCreateSuc
     @Transactional
     @Override
     public PostCreateSuccessResponse execute(NewPostRequest request) {
-        log.info(request.toString());
+
         Post postForSave = getPostForSave(request);
 
         Post savedPost = postRepoService.save(postForSave);
@@ -40,16 +40,13 @@ public class CreatePostService implements StandardServiceInterface<PostCreateSuc
 
     private @NotNull Post getPostForSave(NewPostRequest request) {
 
-
         Post postForSave = postMappers.toPost(request);
 
-        Subject subject = subjectRepoService.findByName(request.getSubject())
-                .orElseThrow(() -> new NotFoundException(STR."Subject: \{request.getSubject()} not found"));
+        Subject subject = subjectRepoService.findByName(request.getSubject());
 
         postForSave.setSubject(subject);
 
-        User userForSave = userRepoService.findUserById(request.getUserId())
-                .orElseThrow(() -> new NotFoundException(STR."User with id: \{request.getUserId()} not found"));
+        User userForSave = userRepoService.findUserById(request.getUserId());
 
         postForSave.setUser(userForSave);
         return postForSave;

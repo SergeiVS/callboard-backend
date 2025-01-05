@@ -20,15 +20,19 @@ public class UserRepositoryService {
     public Optional<User> findUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
-    public Optional<User> findUserById(Integer id) {
-        return userRepository.findById(id);
+
+    public User findUserById(Integer id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("User with id: " + id + " not found"));
     }
+
     public boolean existsUserByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
+
     public Integer findUserIdByEmail(String email) {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new NotFoundException(STR."User: \{email} not found"));
+                .orElseThrow(() -> new NotFoundException("User with email: " + email + " not found"));
         return user.getId();
     }
 

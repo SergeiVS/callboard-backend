@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.callboard.dto.StandardResponse;
 import org.callboard.dto.userDto.UpdateUserRequest;
 import org.callboard.entities.User;
-import org.callboard.exceptions.NotFoundException;
 import org.callboard.services.StandardServiceInterface;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +18,7 @@ public class UpdateUserService implements StandardServiceInterface<StandardRespo
 
     @Override
     @Transactional
-    public StandardResponse execute(UpdateUserRequest request)throws RuntimeException, AuthException {
+    public StandardResponse execute(UpdateUserRequest request) throws RuntimeException, AuthException {
         User userForSave = getUserForSave(request);
         validateUserEmail(userForSave, request.getEmail());
         addNewFieldsToUser(userForSave, request);
@@ -34,18 +33,19 @@ public class UpdateUserService implements StandardServiceInterface<StandardRespo
         setNewPhoneNumberToUser(userForSave, request);
     }
 
-    private static void setNewPhoneNumberToUser(User userForSave, UpdateUserRequest request) {
+    private void setNewPhoneNumberToUser(User userForSave, UpdateUserRequest request) {
         if (request.getPhoneNumber() == null || request.getPhoneNumber().isEmpty()) {
             userForSave.setPhoneNumber("N/A");
-        } else {
+        } else if (request.getPhoneNumber().length() > 11) {
+            throw new IllegalArgumentException("Phone number could not be longer as 11 digits");
+        } else if (!request.getPhoneNumber().equals(userForSave.getPhoneNumber())) {
             userForSave.setPhoneNumber(request.getPhoneNumber());
         }
+
     }
 
     private User getUserForSave(UpdateUserRequest request) {
-        return userRepoService.findUserById(request.getUserId()).orElseThrow(() -> {
-            return new NotFoundException(STR."User: \{request.getUserId()} not found");
-        });
+        return userRepoService.findUserById(request.getUserId());
     }
 
     private void validateUserEmail(User user, String email) {
