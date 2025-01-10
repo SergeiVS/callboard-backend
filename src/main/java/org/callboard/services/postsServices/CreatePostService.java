@@ -41,17 +41,20 @@ public class CreatePostService implements StandardServiceInterface<PostCreateSuc
 
 
     private @NotNull Post getPostForSave(NewPostRequest request) throws IOException {
+        Subject subject = extractSubjectFromRequest(request);
+        User user = getUserToPost(request);
+        String photoLink = getPhotoLinkToPost(request.getImage());
 
         Post post = new Post();
         post.setHeader(request.getHeader());
         post.setDescription(request.getDescription());
-        post.setPhotoLink(getPhotoLinkToPost(request.getImage()));
-        post.setSubject(extractSubjectFromRequest(request));
-        post.setUser(setUserToPost(request));
+        post.setPhotoLink(photoLink);
+        post.setSubject(subject);
+        post.setUser(user);
         return post;
     }
 
-    private User setUserToPost(NewPostRequest request) {
+    private User getUserToPost(NewPostRequest request){
         return userRepoService.findUserById(request.getUserId());
     }
 
