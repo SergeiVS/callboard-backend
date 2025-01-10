@@ -9,7 +9,6 @@ import org.callboard.services.subjectService.SubjectRepositoryService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,8 +20,9 @@ public class PostRepositoryService {
         return postRepository.save(post);
     }
 
-    public Optional<Post> findById(Long id) {
-        return postRepository.findById(id);
+    public Post findById(Long id) {
+        return postRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Post with id: " + id + " not found"));
     }
 
     public List<Post> findAll() {

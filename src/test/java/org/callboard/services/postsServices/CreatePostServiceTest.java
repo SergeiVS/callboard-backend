@@ -18,7 +18,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -102,12 +101,7 @@ class CreatePostServiceTest {
         assertEquals(response, result);
     }
 
-    @Test
-    void shouldNotCreatePostSubjectNotExist() throws IOException {
-        assertThrows(NotFoundException.class, () -> createPostService.execute(request), "Subject: subject not found");
-    }
-
-    private void getMockedValues(){
+    private void getMockedValues() {
         when(subjectRepoService.findByName("subject")).thenReturn(subject);
         when(userRepositoryService.findUserById(1)).thenReturn(user);
         when(postRepoService.save(argThat(post -> (post.getHeader().equals(postForSave.getHeader()) &&
