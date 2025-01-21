@@ -22,7 +22,7 @@ public class UpdateUserService implements StandardServiceInterface<StandardRespo
         User userForSave = getUserForSave(request);
         addNewFieldsToUser(userForSave, request);
         userRepoService.saveUser(userForSave);
-        return new StandardResponse(STR."User: \{userForSave.getEmail()} updated successfully");
+        return new StandardResponse("User: " + userForSave.getEmail() + " updated successfully");
     }
 
     private void addNewFieldsToUser(User userForSave, UpdateUserRequest request) {

@@ -35,11 +35,6 @@ public class UserRepositoryService {
         return userRepository.existsByEmail(email);
     }
 
-    public Integer findUserIdByEmail(String email) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new NotFoundException("User: " + email + " not found"));
-        return user.getId();
-    }
 
     public void deleteUserById(Integer id) {
       try {

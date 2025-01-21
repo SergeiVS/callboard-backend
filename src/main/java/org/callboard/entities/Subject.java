@@ -25,6 +25,10 @@ public class Subject {
     @Column(name = "name", nullable = false)
     private String name;
 
+    public Subject(String name) {
+        this.name = name;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

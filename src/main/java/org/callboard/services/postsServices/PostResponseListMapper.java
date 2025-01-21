@@ -11,6 +11,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class PostResponseListMapper {
+
     private final PostMappers postMappers;
 
     public List<PostResponse> mapPostsListToPostResponseList(List<Post> posts) {

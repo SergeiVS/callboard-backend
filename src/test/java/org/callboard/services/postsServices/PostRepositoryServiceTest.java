@@ -63,8 +63,8 @@ class PostRepositoryServiceTest {
     @Test
     void save() {
         when(postRepository.save(any(Post.class))).thenReturn(postSaved);
-        Post saved = postRepositoryService.save(postForSave);
-        assertEquals(postSaved, saved);
+        Post result = postRepositoryService.save(postForSave);
+        assertEquals(postSaved, result);
         verify(postRepository, times(1)).save(any(Post.class));
     }
 
@@ -83,27 +83,5 @@ class PostRepositoryServiceTest {
         verify(postRepository, times(1)).findById(1L);
     }
 
-    @Test
-    void findAll() {
-    }
 
-    @Test
-    void deleteBiId() {
-    }
-
-    @Test
-    void deleteByUserId() {
-    }
-
-    @Test
-    void findBySubject() {
-    }
-
-    @Test
-    void findByUserEmail() {
-    }
-
-    @Test
-    void findByUserId() {
-    }
 }

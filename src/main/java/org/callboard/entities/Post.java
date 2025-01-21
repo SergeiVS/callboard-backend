@@ -30,7 +30,6 @@ public class Post {
     @Column(nullable = false)
     private String description;
 
-    @Column
     private String photoLink;
 
     @ManyToOne
@@ -42,6 +41,14 @@ public class Post {
     @JoinColumn(nullable = false, name = "id")
     @NotNull
     private User user;
+
+    public Post(String header, String description, String photoLink, Subject subject, User user) {
+        this.header = header;
+        this.description = description;
+        this.photoLink = photoLink;
+        this.subject = subject;
+        this.user = user;
+    }
 
     @Override
     public boolean equals(Object o) {
