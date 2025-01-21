@@ -5,8 +5,9 @@ import org.callboard.dto.postDto.PostResponse;
 import org.callboard.entities.Post;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingConstants;
 
-@Mapper(componentModel = "spring", uses = {UserMappers.class, SubjectMappers.class})
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {UserMappers.class, SubjectMappers.class})
 public interface PostMappers {
 
 

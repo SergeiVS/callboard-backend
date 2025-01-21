@@ -21,6 +21,6 @@ public class DeletePostsByUserId implements StandardServiceInterface<StandardRes
     @Override
     public StandardResponse execute(StandardIntRequest request) throws Exception {
         repositoryService.deleteByUserId(request.getParameter());
-        return new StandardResponse("All posts of User with id: " + request.getParameter());
+        return new StandardResponse("All posts of User with id: " + request.getParameter() + "were deleted.");
     }
 }
