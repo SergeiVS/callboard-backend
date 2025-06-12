@@ -34,9 +34,6 @@ public class AuthService {
         String username = request.getEmail();
         String password = request.getPassword();
 
-        User userForCheck = userRepositoryService.findUserByEmail(username)
-                .orElseThrow(() -> new NotFoundException("User: " + username + " not found"));
-
 
         try {
             Authentication authentication = authenticationManager
